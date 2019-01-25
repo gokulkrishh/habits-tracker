@@ -1,0 +1,91 @@
+.AddHabit {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #fff;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  transform: translateY(260px);
+  height: 260px;
+  padding: 15px;
+  transition: transform 200ms ease-in-out;
+  max-width: 600px;
+  margin: auto;
+
+  &.show {
+    transform: translateY(0);
+  }
+
+  .close {
+    height: 5px;
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+
+    span {
+      border-radius: 4px;
+      background-color: #eee;
+      display: inline-block;
+      height: inherit;
+      width: 30px;
+      margin-left: -6px;
+
+      &:first-child {
+        transform: rotateZ(20deg);
+      }
+
+      &:last-child {
+        transform: rotateZ(-20deg);
+      }
+    }
+  }
+
+  h2 {
+    margin-bottom: 15px;
+  }
+
+  .form__group {
+    display: flex;
+    height: 55px;
+
+    &:first-child {
+      flex-direction: column;
+    }
+  }
+
+  .form__subgroup {
+    display: flex;
+    align-items: center;
+    width: 50%;
+
+    input {
+      width: 95%;
+    }
+
+    &:last-of-type {
+      justify-content: flex-end;
+    }
+  }
+
+  label {
+    margin-bottom: 10px;
+  }
+
+  input {
+    border-radius: 2px;
+    border: 1px solid #eee;
+    outline: none;
+    padding: 10px 8px;
+    font-size: 14px;
+
+    &:focus {
+      border-color: #1976d2;
+    }
+  }
+
+  button {
+    margin: 15px 0;
+    height: 40px;
+  }
+}

@@ -1,0 +1,42 @@
+.BottomBar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 56px;
+  background-color: #fff;
+  color: #424242;
+  box-shadow: 0px 2px 3px 3px rgba(0, 0, 0, 0.05);
+  user-select: none;
+
+  ul {
+    justify-content: space-around;
+    height: inherit;
+  }
+
+  ul,
+  li > button {
+    display: flex;
+    align-items: center;
+  }
+
+  li > button {
+    justify-content: center;
+    cursor: pointer;
+    height: 40px;
+    width: 40px;
+    outline: none;
+    border-radius: 50%;
+  }
+
+  li {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  img {
+    width: 30px;
+    height: 30px;
+  }
+}
