@@ -3,10 +3,8 @@ import React, { Component } from "react";
 import "./styles.scss";
 
 class Calender extends Component {
-  dateObj = new Date();
-
   state = {
-    today: this.dateObj.getDay(),
+    today: new Date().getDay(),
     days: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
   };
 
@@ -21,7 +19,6 @@ class Calender extends Component {
   }
 
   render() {
-    console.log("this.state --->", this.state); // eslint-disable-line
     return (
       <div className="Calender">
         <ul className="Calender__days">{this.renderDays()}</ul>
