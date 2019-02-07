@@ -1,13 +1,14 @@
 .Habits {
-  height: 100%;
   padding: 15px;
+  overflow: auto;
+  margin-top: 25px;
 
   &__empty {
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 450px;
+    height: calc(100% - 230px);
   }
 }
 
@@ -16,11 +17,12 @@
   max-width: 480px;
   height: 100px;
   margin: 0 auto;
-  background-color: #e6e6e6;
+  background-color: #fff;
   margin-bottom: 20px;
   border-radius: 8px;
   display: flex;
   align-items: center;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 
   &__checkbox {
     width: 60px;
@@ -30,10 +32,18 @@
     span {
       width: 30px;
       height: 30px;
-      display: inline-block;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       background: #fff;
-      border: 2px solid #b9b8b8;
+      border: 1px solid #9E9E9E;
       border-radius: 50%;
+    }
+
+    img {
+      width: 15px;
+      height: 15px;
+      display: inline-block;
     }
 
     input {

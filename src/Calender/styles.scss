@@ -1,30 +1,26 @@
 .Calender {
-  height: 80px;
+  height: 100px;
   background-color: #e6e6e6;
-  position: sticky;
-  top: 0;
+  overflow: auto;
 
   ul {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    height: inherit;
+    white-space: nowrap;
   }
 
   li {
-    height: 55px;
-    width: 55px;
+    height: 65px;
+    width: 65px;
     background-color: rgba(255, 255, 255, 0.5);
     text-align: center;
     border-radius: 4px;
     padding: 6px;
-    font-size: 14px;
     font-weight: 500;
     cursor: pointer;
-    display: flex;
+    display: inline-flex;
     flex-direction: column;
     justify-content: space-around;
     user-select: none;
+    margin: 15px 10px;
 
     &:active {
       opacity: 0.7;
@@ -34,6 +30,11 @@
       border: 2px solid #2196F3;
       background-color: #fff;
       color: #2196F3;
+      font-weight: bold;
+    }
+
+    span {
+      font-size: 16px;
     }
   }
 }

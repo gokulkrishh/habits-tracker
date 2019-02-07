@@ -6,12 +6,13 @@
   background-color: #fff;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  transform: translateY(260px);
-  height: 260px;
+  transform: translateY(350px);
+  height: 350px;
   padding: 15px;
   transition: transform 200ms ease-in-out;
   max-width: 600px;
   margin: auto;
+  box-shadow: 0 0px 8px rgba(0,0,0,0.17);
 
   &.show {
     transform: translateY(0);
@@ -21,11 +22,12 @@
     height: 5px;
     display: flex;
     justify-content: center;
-    margin-top: 10px;
+    margin-top: 5px;
+    cursor: pointer;
 
     span {
       border-radius: 4px;
-      background-color: #eee;
+      background-color: #c1c0c0;
       display: inline-block;
       height: inherit;
       width: 30px;
@@ -42,12 +44,14 @@
   }
 
   h2 {
-    margin-bottom: 15px;
+    margin-bottom: 25px;
+    font-size: 25px;
   }
 
   .form__group {
     display: flex;
     height: 55px;
+    margin-bottom: 10px;
 
     &:first-child {
       flex-direction: column;
@@ -60,7 +64,7 @@
     width: 50%;
 
     input {
-      width: 95%;
+      width: 95%;;
     }
 
     &:last-of-type {
@@ -73,11 +77,12 @@
   }
 
   input {
-    border-radius: 2px;
+    border-radius: 4px;
     border: 1px solid #eee;
     outline: none;
     padding: 10px 8px;
-    font-size: 14px;
+    font-size: 15px;
+    height: 48px;
 
     &:focus {
       border-color: #1976d2;
@@ -86,6 +91,8 @@
 
   button {
     margin: 15px 0;
-    height: 40px;
+    height: 48px;
+    border-radius: 4px;
+    font-size: 16px;
   }
 }
