@@ -27,10 +27,11 @@ class Calender extends Component {
     const { days, today } = this.state;
     const totalDaysInThisMonth = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
     return Array.from(Array(totalDaysInThisMonth).keys()).map((day, index) => {
-      const date = `${new Date().getMonth() + 1}-${day + 1}-${new Date().getFullYear()}`;
-      const dayOfDate = dayjs(date).day();
+      const date = day + 1 < 9 ? `0${day + 1}` : `${day + 1}`;
+      const dateFormatted = `${new Date().getFullYear()}-0${new Date().getMonth() + 1}-${date}`;
+      const dayOfDate = dayjs(dateFormatted).day();
       return (
-        <li key={day} className={cx({ active: today === dayjs(date).date() })}>
+        <li key={day} className={cx({ active: today === dayjs(dateFormatted).date() })}>
           <span>{days[dayOfDate]}</span>
           <span>{day + 1}</span>
         </li>
