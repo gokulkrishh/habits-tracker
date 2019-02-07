@@ -8,10 +8,7 @@ const localStorageUtils = {
     } else {
       namespace[key] = [request];
     }
-    localStorage.setItem(
-      constants.STORAGE_KEYS.HABITS,
-      JSON.stringify(namespace)
-    );
+    localStorage.setItem(constants.STORAGE_KEYS.HABITS, JSON.stringify(namespace));
   },
 
   getNamespace(namespace = constants.STORAGE_KEYS.HABITS) {
@@ -20,7 +17,6 @@ const localStorageUtils = {
 
   get(key, namespace = constants.STORAGE_KEYS.HABITS) {
     const namespaceData = JSON.parse(localStorage.getItem(namespace) || "{}");
-    console.log("namespaceData --->", namespaceData); // eslint-disable-line
     return namespaceData[key] || [];
   },
 

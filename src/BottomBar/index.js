@@ -29,7 +29,7 @@ class BottomBar extends Component {
             </button>
           </li>
           <li>
-            <a href="/progress">Progress</a>
+            <a href="/progress">Streaks</a>
           </li>
         </ul>
 

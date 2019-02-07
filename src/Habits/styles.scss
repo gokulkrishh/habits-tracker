@@ -1,21 +1,34 @@
 .Habits {
   padding: 15px;
   overflow: auto;
-  margin-top: 25px;
+  margin-top: 15px;
+  margin-bottom: 50px;
 
   &__empty {
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    height: calc(100% - 230px);
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+
+    h2 {
+      display: flex;
+    }
+
+    span {
+      margin-left: 8px;
+    }
   }
 }
 
 .card {
   width: 100%;
   max-width: 480px;
-  height: 100px;
+  height: 85px;
   margin: 0 auto;
   background-color: #fff;
   margin-bottom: 20px;
@@ -25,18 +38,18 @@
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 
   &__checkbox {
-    width: 60px;
+    width: 50px;
     display: flex;
     justify-content: center;
+    cursor: pointer;
 
     span {
-      width: 30px;
-      height: 30px;
+      width: 25px;
+      height: 25px;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #fff;
-      border: 1px solid #9E9E9E;
+      background: #dedede;
       border-radius: 50%;
     }
 
@@ -58,14 +71,15 @@
 
 
   &__info {
-    margin-left: 10px;
+    margin-left: 5px;
   }
 
   .name {
-    margin-bottom: 10px;
+    margin-bottom: 8px;
   }
 
   .time {
     color: grey;
+    font-size: 14px
   }
 }

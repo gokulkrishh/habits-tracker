@@ -37,8 +37,6 @@ class AddHabit extends Component {
       reminder
     };
 
-    console.log("storage --->", storage); // eslint-disable-line
-
     if (!Array.isArray(storage[today])) {
       storage[today] = [request];
     } else {
@@ -58,37 +56,18 @@ class AddHabit extends Component {
           <span />
         </div>
         <h2>Add Habit</h2>
-        <form
-          className="form"
-          autoComplete="off"
-          onSubmit={this.onSubmitCallback}
-        >
+        <form className="form" autoComplete="off" onSubmit={this.onSubmitCallback}>
           <div className="form__group">
-            <input
-              type="text"
-              placeholder="Name"
-              name="name"
-              onChange={this.onChangeCallback}
-            />
+            <input type="text" placeholder="Name" name="name" onChange={this.onChangeCallback} required />
           </div>
 
           <div className="form__group">
             <div className="form__subgroup">
-              <input
-                type="text"
-                placeholder="Today"
-                name="time"
-                onChange={this.onChangeCallback}
-              />
+              <input type="text" placeholder="Today" name="time" onChange={this.onChangeCallback} required />
             </div>
 
             <div className="form__subgroup">
-              <input
-                type="text"
-                placeholder="Reminder"
-                name="reminder"
-                onChange={this.onChangeCallback}
-              />
+              <input type="text" placeholder="Reminder" name="reminder" onChange={this.onChangeCallback} required />
             </div>
           </div>
 
