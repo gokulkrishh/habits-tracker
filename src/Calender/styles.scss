@@ -5,7 +5,6 @@
   position: sticky;
   top: 68px;
   display: flex;
-  scroll-behavior: smooth;
 
   ul {
     white-space: nowrap;
@@ -42,5 +41,3 @@
     }
   }
 }
-
-.Calender::-webkit-scrollbar { width: 0 !important }
