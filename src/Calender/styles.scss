@@ -1,13 +1,12 @@
 .Calender {
-  height: 100px;
+  height: 90px;
   background-color: #e6e6e6;
-  overflow: auto;
-  position: sticky;
-  top: 68px;
+  overflow: scroll;
   display: flex;
 
   ul {
     white-space: nowrap;
+    margin: 12px 0;
   }
 
   li {
@@ -23,7 +22,7 @@
     flex-direction: column;
     justify-content: space-around;
     user-select: none;
-    margin: 17px 10px;
+    margin: 0 10px;
 
     &:active {
       opacity: 0.7;
@@ -40,8 +39,4 @@
       font-size: 17px;
     }
   }
-}
-
-.Calender::-webkit-scrollbar {
-  width: 0px !important;
 }
