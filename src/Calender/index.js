@@ -1,30 +1,33 @@
-import React, { Component } from "react";
+import React, { useEffect } from "react";
 import dayjs from "dayjs";
 import cx from "classnames";
 
 import "./styles.scss";
+import constants from "../constants";
 
-class Calender extends Component {
-  cal = null;
+const Calender = () => {
+  let calenderElement = null;
+  const today = dayjs().date();
 
-  state = {
-    today: dayjs().date(),
-    days: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
-  };
+  useEffect(() => {
+    if (calenderElement) {
+      scrollTodayIntoMiddle();
+    }
 
-  componentDidMount() {
-    this.scrollTodayIntoMiddle();
-  }
+    return () => {
+      calenderElement = null;
+    };
+  }, []);
 
-  scrollTodayIntoMiddle() {
-    const todayElement = Array.from(this.cal.children).filter(ele => ele.classList.contains("active"));
+  const scrollTodayIntoMiddle = () => {
+    const todayElement = Array.from(calenderElement.children).filter(ele => ele.classList.contains("active"));
     if (todayElement.length) {
       todayElement[0].scrollIntoView({ behavior: "auto", block: "center", inline: "center" });
     }
-  }
+  };
 
-  renderDays() {
-    const { days, today } = this.state;
+  const renderDays = () => {
+    const days = constants.DAYS;
     const totalDaysInThisMonth = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
     return Array.from(Array(totalDaysInThisMonth).keys()).map((day, index) => {
       const date = day + 1 < 9 ? `0${day + 1}` : `${day + 1}`;
@@ -37,21 +40,19 @@ class Calender extends Component {
         </li>
       );
     });
-  }
+  };
 
-  render() {
-    return (
-      <div className="Calender">
-        <ul
-          className="Calender__days"
-          ref={ref => {
-            this.cal = ref;
-          }}
-        >
-          {this.renderDays()}
-        </ul>
-      </div>
-    );
-  }
-}
+  return (
+    <div className="Calender">
+      <ul
+        className="Calender__days"
+        ref={ref => {
+          calenderElement = ref;
+        }}
+      >
+        {renderDays()}
+      </ul>
+    </div>
+  );
+};
 export default Calender;

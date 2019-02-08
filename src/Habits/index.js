@@ -1,11 +1,17 @@
 import React from "react";
+import dayjs from "dayjs";
 
+import constants from "../constants";
+import localStorageUtils from "../localStorageUtils";
 import tickSVG from "./tick.svg";
 
 import "./styles.scss";
 
-const Habits = props => {
-  if (!props.habits.length)
+const Habits = () => {
+  const today = dayjs().format(constants.FORMAT.DATE);
+  const habits = localStorageUtils.get(today);
+
+  if (!habits.length)
     return (
       <div className="Habits__empty">
         <h2>
@@ -19,7 +25,7 @@ const Habits = props => {
 
   return (
     <div className="Habits">
-      {props.habits.map(habit => {
+      {habits.map(habit => {
         return (
           <div className="card" key={habit.id}>
             <div className="card__left">

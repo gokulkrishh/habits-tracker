@@ -1,23 +1,31 @@
 import constants from "./constants";
 
 const localStorageUtils = {
-  set(key, request) {
-    const namespace = this.getNamespace() || {};
-    if (namespace[key]) {
-      namespace[key].push(request);
-    } else {
-      namespace[key] = [request];
-    }
-    localStorage.setItem(constants.STORAGE_KEYS.HABITS, JSON.stringify(namespace));
+  init() {
+    localStorage.setItem(constants.STORAGE_KEYS.HABITS, JSON.stringify([]));
   },
 
-  getNamespace(namespace = constants.STORAGE_KEYS.HABITS) {
-    return JSON.parse(localStorage.getItem(namespace) || "{}");
+  set(key, request) {
+    const savedData = this.get(key) || [];
+    savedData.push(request);
+    localStorage.setItem(
+      constants.STORAGE_KEYS.HABITS,
+      JSON.stringify({
+        [key]: savedData
+      })
+    );
+  },
+
+  getItemByKey(key = "") {
+    const item = localStorage.getItem(key);
+    if (!item) return null;
+    return JSON.parse(item);
   },
 
   get(key, namespace = constants.STORAGE_KEYS.HABITS) {
-    const namespaceData = JSON.parse(localStorage.getItem(namespace) || "{}");
-    return namespaceData[key] || [];
+    const item = localStorage.getItem(namespace);
+    if (!item) return {};
+    return JSON.parse(item)[key] || [];
   },
 
   getAll() {
@@ -28,9 +36,27 @@ const localStorageUtils = {
     }
     return data;
   },
+
   remove(key) {
     localStorage.removeItem(key);
+  },
+
+  subscribeForUpdates() {
+    window.addEventListener(
+      "storage",
+      function(event) {
+        if (event.storageArea === localStorage) {
+          console.log("came --->"); // eslint-disable-line
+        }
+      },
+      false
+    );
   }
 };
+
+if (!localStorageUtils.getAll().length) {
+  localStorageUtils.init();
+  localStorageUtils.subscribeForUpdates();
+}
 
 export default localStorageUtils;
