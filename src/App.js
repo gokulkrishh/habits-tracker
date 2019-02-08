@@ -5,11 +5,7 @@ import Home from "./Home";
 import "./App.scss";
 
 const App = () => {
-  return (
-    <div className="App">
-      <Home />
-    </div>
-  );
+  return <Home />;
 };
 
 export default App;
