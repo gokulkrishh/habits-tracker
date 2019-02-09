@@ -19,7 +19,7 @@ const BottomBar = ({ onHabitAdd }) => {
           </button>
         </li>
         <li>
-          <a href="/progress">Streaks</a>
+          <a href="/streaks">Streaks</a>
         </li>
       </ul>
 

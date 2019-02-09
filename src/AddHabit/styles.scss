@@ -127,7 +127,9 @@
 
 
 @media all and (max-width: 480px) {
-  .AddHabit{
+  .AddHabit {
+    min-height: 90%;
+
     .form__group-row {
       flex-direction: column;
 
