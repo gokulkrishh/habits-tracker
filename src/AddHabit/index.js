@@ -53,9 +53,10 @@ const AddHabit = ({ onHabitAdd, onClose, show }) => {
         <h2>Add Habit</h2>
         <form className="form" autoComplete="off" onSubmit={onFormSubmit}>
           <div className="form__group">
+            <label>Name:</label>
             <input
               type="text"
-              placeholder="Name"
+              placeholder="Go for jog"
               name="name"
               onChange={event => {
                 setState({ ...form, name: event.target.value });
@@ -65,30 +66,37 @@ const AddHabit = ({ onHabitAdd, onClose, show }) => {
             />
           </div>
 
-          <div className="form__group">
-            <input
-              type="text"
-              placeholder="6 AM"
-              name="time"
-              onChange={event => {
-                setState({ ...form, time: event.target.value });
-              }}
-              value={form.time}
-              required
-            />
+          <div className="form__group form__group-row">
+            <div>
+              <label>Time:</label>
+              <input
+                type="text"
+                placeholder="Like 6 AM"
+                name="time"
+                onChange={event => {
+                  setState({ ...form, time: event.target.value });
+                }}
+                value={form.time}
+                required
+              />
+            </div>
 
-            <input
-              type="text"
-              placeholder="Note (Optional)"
-              name="note"
-              onChange={event => {
-                setState({ ...form, note: event.target.value });
-              }}
-              value={form.note}
-            />
+            <div>
+              <label>Note:</label>
+              <input
+                type="text"
+                placeholder="Note (Optional)"
+                name="note"
+                onChange={event => {
+                  setState({ ...form, note: event.target.value });
+                }}
+                value={form.note}
+              />
+            </div>
           </div>
 
           <div className="form__group">
+            <label>Days:</label>
             <div className="form__days">
               {constants.DAYS.map(day => {
                 const isActive = form.reminders.indexOf(day) > -1;
@@ -108,7 +116,16 @@ const AddHabit = ({ onHabitAdd, onClose, show }) => {
           </div>
 
           <div className="form__group">
-            <button>Add Habit</button>
+            <div className="form__group-row">
+              <button
+                onClick={() => {
+                  onClose();
+                }}
+              >
+                Cancel
+              </button>
+              <button className="primary">Add Habit</button>
+            </div>
           </div>
         </form>
       </div>

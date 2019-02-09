@@ -42,7 +42,7 @@ const Habits = () => {
               </div>
             </div>
             <div className="card__right">
-              <span className="steaks">2 in a row</span>
+              <span className="steaks">0 in a row</span>
             </div>
           </div>
         );
