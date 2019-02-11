@@ -15,7 +15,7 @@ const BottomBar = ({ onHabitAdd }) => {
         </li>
         <li>
           <button onClick={() => setShowState(!show)} className="primary">
-            <img src={AddSVG} alt="Add" />
+            <img src={AddSVG} alt="Add" /> Add Habits
           </button>
         </li>
         <li>

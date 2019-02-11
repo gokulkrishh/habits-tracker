@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import dayjs from "dayjs";
 import cx from "classnames";
 
@@ -6,7 +6,7 @@ import "./styles.scss";
 import constants from "../constants";
 
 const Calender = () => {
-  let calenderElement = null;
+  let calenderElement = useRef();
   const today = dayjs().date();
 
   useEffect(() => {
@@ -22,7 +22,7 @@ const Calender = () => {
   const scrollTodayIntoMiddle = () => {
     const todayElement = Array.from(calenderElement.children).filter(ele => ele.classList.contains("active"));
     if (todayElement.length) {
-      todayElement[0].scrollIntoView({ behavior: "auto", block: "center", inline: "center" });
+      todayElement[0].scrollIntoView({ behavior: "smooth", block: "center", inline: "center" });
     }
   };
 

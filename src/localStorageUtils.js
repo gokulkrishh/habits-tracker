@@ -39,24 +39,11 @@ const localStorageUtils = {
 
   remove(key) {
     localStorage.removeItem(key);
-  },
-
-  subscribeForUpdates() {
-    window.addEventListener(
-      "storage",
-      function(event) {
-        if (event.storageArea === localStorage) {
-          console.log("came --->"); // eslint-disable-line
-        }
-      },
-      false
-    );
   }
 };
 
 if (!localStorageUtils.getAll().length) {
   localStorageUtils.init();
-  localStorageUtils.subscribeForUpdates();
 }
 
 export default localStorageUtils;

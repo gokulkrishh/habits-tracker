@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useReducer } from "react";
 import cx from "classnames";
 import dayjs from "dayjs";
 
@@ -6,6 +6,21 @@ import constants from "../constants";
 import localStorageUtils from "../localStorageUtils";
 
 import "./styles.scss";
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "name":
+      return { ...state, name: action.payload };
+    case "time":
+      return { ...state, time: action.payload };
+    case "note":
+      return { ...state, note: action.payload };
+    case "reminders":
+      return { ...state, reminders: action.payload };
+    default:
+      return state;
+  }
+};
 
 const AddHabit = ({ onHabitAdd, onClose, show }) => {
   const initialState = {
@@ -15,11 +30,11 @@ const AddHabit = ({ onHabitAdd, onClose, show }) => {
     reminders: constants.DAYS.slice()
   };
 
-  const [form, setState] = useState(initialState);
+  const [state, dispatch] = useReducer(reducer, { ...initialState });
 
   const onFormSubmit = async event => {
     event.preventDefault();
-    const { name, note, time } = form;
+    const { name, note, time } = state;
     const date = dayjs();
     const today = date.format(constants.FORMAT.DATE);
     await localStorageUtils.set(today, {
@@ -31,20 +46,20 @@ const AddHabit = ({ onHabitAdd, onClose, show }) => {
       name,
       time
     });
-    setState(initialState);
+    dispatch(initialState);
     onClose();
     onHabitAdd(localStorageUtils.get(today));
   };
 
   const reminderClickCallback = day => {
-    const selectedDay = form.reminders.indexOf(day);
+    const selectedDay = state.reminders.indexOf(day);
     if (selectedDay > -1) {
-      form.reminders.splice(selectedDay, 1);
+      state.reminders.splice(selectedDay, 1);
     } else {
       const actualIndex = constants.DAYS.indexOf(day);
-      form.reminders.splice(actualIndex, 0, day);
+      state.reminders.splice(actualIndex, 0, day);
     }
-    setState({ ...form });
+    dispatch({ type: "reminders", payload: state.reminders });
   };
 
   return (
@@ -59,9 +74,9 @@ const AddHabit = ({ onHabitAdd, onClose, show }) => {
               placeholder="Go for jog"
               name="name"
               onChange={event => {
-                setState({ ...form, name: event.target.value });
+                dispatch({ type: "name", payload: event.target.value });
               }}
-              value={form.name}
+              value={state.name}
               required
             />
           </div>
@@ -71,12 +86,12 @@ const AddHabit = ({ onHabitAdd, onClose, show }) => {
               <label>Time:</label>
               <input
                 type="text"
-                placeholder="Like 6 AM"
+                placeholder="6 AM or 8 PM"
                 name="time"
                 onChange={event => {
-                  setState({ ...form, time: event.target.value });
+                  dispatch({ type: "time", payload: event.target.value });
                 }}
-                value={form.time}
+                value={state.time}
                 required
               />
             </div>
@@ -85,12 +100,12 @@ const AddHabit = ({ onHabitAdd, onClose, show }) => {
               <label>Note:</label>
               <input
                 type="text"
-                placeholder="Note (Optional)"
+                placeholder="(Optional)"
                 name="note"
                 onChange={event => {
-                  setState({ ...form, note: event.target.value });
+                  dispatch({ type: "note", payload: event.target.value });
                 }}
-                value={form.note}
+                value={state.note}
               />
             </div>
           </div>
@@ -99,7 +114,7 @@ const AddHabit = ({ onHabitAdd, onClose, show }) => {
             <label>Days:</label>
             <div className="form__days">
               {constants.DAYS.map(day => {
-                const isActive = form.reminders.indexOf(day) > -1;
+                const isActive = state.reminders.indexOf(day) > -1;
                 return (
                   <span
                     className={cx({ active: isActive })}

@@ -39,6 +39,7 @@ const Habits = () => {
               <div className="card__info">
                 <h3 className="name">{habit.name}</h3>
                 <span className="time">{habit.time}</span>
+                <span className="time">{habit.notes}</span>
               </div>
             </div>
             <div className="card__right">
