@@ -5,6 +5,12 @@ const localStorageUtils = {
     localStorage.setItem(constants.STORAGE_KEYS.HABITS, JSON.stringify([]));
   },
 
+  update(key, request) {
+    const habits = JSON.parse(localStorage.getItem(constants.STORAGE_KEYS.HABITS) || "{}");
+    habits[key] = request;
+    localStorage.setItem(constants.STORAGE_KEYS.HABITS, JSON.stringify(habits));
+  },
+
   set(key, request) {
     const savedData = this.get(key) || [];
     savedData.push(request);

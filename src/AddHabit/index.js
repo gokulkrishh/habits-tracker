@@ -32,20 +32,23 @@ const AddHabit = ({ onHabitAdd, onClose, show }) => {
 
   const [state, dispatch] = useReducer(reducer, { ...initialState });
 
-  const onFormSubmit = async event => {
+  const onFormSubmit = event => {
     event.preventDefault();
-    const { name, note, time } = state;
+    const { name, note, time, reminders } = state;
     const date = dayjs();
     const today = date.format(constants.FORMAT.DATE);
-    await localStorageUtils.set(today, {
+    const request = {
       id: date.unix(),
       createdDate: today,
       createdDay: date.day(),
-      remainders: constants.remainders,
+      done: false,
+      steaks: 0,
+      reminders,
       note,
       name,
       time
-    });
+    };
+    localStorageUtils.set(today, request);
     dispatch(initialState);
     onClose();
     onHabitAdd(localStorageUtils.get(today));
