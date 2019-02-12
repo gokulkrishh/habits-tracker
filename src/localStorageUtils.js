@@ -20,6 +20,8 @@ const localStorageUtils = {
         [key]: savedData
       })
     );
+
+    return this.get(key);
   },
 
   getItemByKey(key = "") {

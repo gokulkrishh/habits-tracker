@@ -101,3 +101,36 @@
     font-size: 14px
   }
 }
+
+.AddHabits {
+  position: fixed;
+  bottom: 30px;
+  left: 0;
+  right: 0;
+  margin: auto;
+
+  button {
+    cursor: pointer;
+    height: 44px;
+    width: 150px;
+    outline: none;
+    border-radius: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: -10px auto;
+    appearance: none;
+    font-weight: 600;
+
+    img {
+      width: 21px;
+      height: 21px;
+      margin-right: 5px;
+    }
+  }
+
+  a {
+    font-size: 15px;
+    text-transform: uppercase;
+  }
+}

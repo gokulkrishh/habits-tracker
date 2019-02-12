@@ -1,15 +1,25 @@
-import React, { useCallback } from "react";
+import React, { useState } from "react";
 import dayjs from "dayjs";
+
+import AddSVG from "./add.svg";
+import tickSVG from "./tick.svg";
 
 import constants from "../constants";
 import localStorageUtils from "../localStorageUtils";
-import tickSVG from "./tick.svg";
+
+import AddHabit from "../AddHabit";
 
 import "./styles.scss";
 
 const Habits = () => {
   const today = dayjs().format(constants.FORMAT.DATE);
-  let habits = localStorageUtils.get(today);
+  const savedHabitsForToday = localStorageUtils.get(today);
+  const [state, setState] = useState({
+    habits: savedHabitsForToday,
+    show: false
+  });
+
+  const { habits, show } = state;
 
   const updatedHabit = currentHabit => {
     let updateKey = null;
@@ -26,11 +36,11 @@ const Habits = () => {
 
     if (updateKey) {
       localStorageUtils.update(updateKey, habits);
-      habits = localStorageUtils.get(today);
+      setState({ ...state, habits });
     }
   };
 
-  if (!habits.length)
+  if (!habits.length) {
     return (
       <div className="Habits__empty">
         <h2>
@@ -41,6 +51,7 @@ const Habits = () => {
         </h2>
       </div>
     );
+  }
 
   return (
     <div className="Habits">
@@ -49,15 +60,15 @@ const Habits = () => {
           <div className="card" key={habit.id}>
             <div className="card__left">
               <label className="card__checkbox">
-                <input type="checkbox" defaultChecked={habit.done} />
+                <input
+                  type="checkbox"
+                  defaultChecked={habit.done}
+                  onClick={() => {
+                    updatedHabit(habit);
+                  }}
+                />
                 <span>
-                  <img
-                    src={tickSVG}
-                    alt="done"
-                    onClick={() => {
-                      updatedHabit(habit);
-                    }}
-                  />
+                  <img src={tickSVG} alt="done" />
                 </span>
               </label>
 
@@ -73,6 +84,19 @@ const Habits = () => {
           </div>
         );
       })}
+
+      <div className="AddHabits">
+        <button onClick={() => setState({ ...state, show: !show })} className="primary">
+          <img src={AddSVG} alt="Add" /> Add Habits
+        </button>
+      </div>
+
+      <AddHabit
+        onClose={habits => {
+          setState({ habits, show: !show });
+        }}
+        show={show}
+      />
     </div>
   );
 };

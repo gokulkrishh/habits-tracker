@@ -1,29 +1,21 @@
-import React, { useState } from "react";
-
-import AddSVG from "./add.svg";
+import React from "react";
 
 import "./styles.scss";
-import AddHabit from "../AddHabit";
 
-const BottomBar = ({ onHabitAdd }) => {
-  const [show, setShowState] = useState(false);
+const BottomBar = () => {
   return (
     <div className="BottomBar">
-      {/* <ul>
+      <ul>
         <li>
           <a href="/">Home</a>
         </li>
-        <li> */}
-      <button onClick={() => setShowState(!show)} className="primary">
-        <img src={AddSVG} alt="Add" /> Add Habits
-      </button>
-      {/* </li>
         <li>
           <a href="/streaks">Streaks</a>
         </li>
-      </ul> */}
-
-      <AddHabit onHabitAdd={onHabitAdd} onClose={() => setShowState(!show)} show={show} />
+        <li>
+          <a href="/">Settings</a>
+        </li>
+      </ul>
     </div>
   );
 };
