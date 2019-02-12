@@ -1,3 +1,17 @@
+.AddHabit__overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.20);
+  display: none;
+
+  &.show {
+    display: block;
+  }
+}
+
 .AddHabit {
   position: fixed;
   left: 0;
@@ -6,82 +20,61 @@
   background-color: #fff;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  transform: translateY(300px);
-  height: 300px;
+  transform: translateY(100%);
+  min-height: 430px;
   padding: 15px;
   transition: transform 200ms ease-in-out;
   max-width: 600px;
   margin: auto;
   box-shadow: 0 0px 8px rgba(0,0,0,0.17);
+  will-change: transform;
+  z-index: 1;
 
   &.show {
     transform: translateY(0);
   }
 
-  .close {
-    height: 5px;
-    display: flex;
-    justify-content: center;
-    margin-top: 5px;
-    cursor: pointer;
-
-    span {
-      border-radius: 4px;
-      background-color: #c1c0c0;
-      display: inline-block;
-      height: inherit;
-      width: 30px;
-      margin-left: -6px;
-
-      &:first-child {
-        transform: rotateZ(20deg);
-      }
-
-      &:last-child {
-        transform: rotateZ(-20deg);
-      }
-    }
-  }
-
   h2 {
-    margin-bottom: 25px;
     font-size: 25px;
+    margin: 5px 0 10px;
   }
 
   .form__group {
     display: flex;
-    height: 55px;
-    margin-bottom: 10px;
-
-    &:first-child {
-      flex-direction: column;
-    }
+    min-height: 55px;
+    flex-direction: column;
+    padding: 10px 0;
   }
 
-  .form__subgroup {
+  .form__group-row {
+    justify-content: space-between;
     display: flex;
-    align-items: center;
-    width: 50%;
+    flex-direction: row;
 
-    input {
-      width: 95%;;
+    div {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
     }
 
-    &:last-of-type {
-      justify-content: flex-end;
+    div:last-child {
+      margin-left: 25px;
     }
   }
 
   label {
+    font-size: 14px;
     margin-bottom: 10px;
+    margin-right: 10px;
+    font-weight: 600;
   }
 
   input {
     border-radius: 4px;
-    border: 1px solid #eee;
+    border: 2px solid #eee;
     outline: none;
     padding: 10px 8px;
-    font-size: 15px;
+    font-size: 14px;
     height: 48px;
     appearance: none;
 
@@ -90,10 +83,73 @@
     }
   }
 
-  button {
-    margin: 15px 0;
+  .form__days {
+    width: 350px;
     height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    span {
+      width: 40px;
+      height: 40px;
+      background-color: #EEEEEE;
+      border-radius: 4px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-around;
+      border: 2px solid #EEEEEE;
+
+      & + span {
+        margin-left: 10px;
+      }
+
+      &.active {
+        border: 2px solid #2974ff;
+      }
+
+    }
+  }
+
+  button {
+    width: 50%;
+    height: 38px;
     border-radius: 4px;
-    font-size: 16px;
+    font-size: 14px;
+    margin: 5px 0;
+    cursor: pointer;
+  }
+
+  button + button {
+    margin-left: 20px;
+  }
+}
+
+
+@media all and (max-width: 480px) {
+  .AddHabit {
+    max-height: 515px;
+
+    .form__group-row {
+      flex-direction: column;
+
+      div:first-child {
+        margin-bottom: 15px;
+      }
+
+      div:last-child {
+        margin-left: 0;
+      }
+    }
+
+    .form__group .form__group-row {
+      flex-direction: row;
+    }
+
+    .form__days {
+      width: 100%;
+    }
   }
 }

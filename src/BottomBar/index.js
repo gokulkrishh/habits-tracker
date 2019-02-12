@@ -1,42 +1,31 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 
 import AddSVG from "./add.svg";
 
 import "./styles.scss";
 import AddHabit from "../AddHabit";
 
-class BottomBar extends Component {
-  state = {
-    showAddHabit: false
-  };
+const BottomBar = ({ onHabitAdd }) => {
+  const [show, setShowState] = useState(false);
+  return (
+    <div className="BottomBar">
+      {/* <ul>
+        <li>
+          <a href="/">Home</a>
+        </li>
+        <li> */}
+      <button onClick={() => setShowState(!show)} className="primary">
+        <img src={AddSVG} alt="Add" /> Add Habits
+      </button>
+      {/* </li>
+        <li>
+          <a href="/streaks">Streaks</a>
+        </li>
+      </ul> */}
 
-  showAddHabitCallback = () => {
-    this.setState({ showAddHabit: !this.state.showAddHabit });
-  };
-
-  render() {
-    const { showAddHabit } = this.state;
-
-    return (
-      <div className="BottomBar">
-        <ul>
-          <li>
-            <a href="/">Home</a>
-          </li>
-          <li>
-            <button onClick={this.showAddHabitCallback}>
-              <img src={AddSVG} alt="Add" />
-            </button>
-          </li>
-          <li>
-            <a href="/progress">Streaks</a>
-          </li>
-        </ul>
-
-        <AddHabit show={showAddHabit} onClose={this.showAddHabitCallback} />
-      </div>
-    );
-  }
-}
+      <AddHabit onHabitAdd={onHabitAdd} onClose={() => setShowState(!show)} show={show} />
+    </div>
+  );
+};
 
 export default BottomBar;
