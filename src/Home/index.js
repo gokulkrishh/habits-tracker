@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import dayjs from "dayjs";
 
 import localStorageUtils from "../localStorageUtils";
@@ -11,12 +11,16 @@ import "./styles.scss";
 
 const Home = () => {
   const today = dayjs().format(constants.FORMAT.DATE);
-  const habits = localStorageUtils.get(today);
+  const [habits, setState] = useState(localStorageUtils.get(today));
+
+  const showHabits = date => {
+    setState(localStorageUtils.get(date));
+  };
 
   return (
     <div className="Home">
       <h1>My Habits</h1>
-      <Calender />
+      <Calender showHabits={showHabits} />
       <Habits habits={habits} />
     </div>
   );

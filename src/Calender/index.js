@@ -1,13 +1,15 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import dayjs from "dayjs";
 import cx from "classnames";
 
 import "./styles.scss";
+
 import constants from "../constants";
 
-const Calender = () => {
+const Calender = ({ showHabits }) => {
   let calenderElement = useRef();
   const today = dayjs().date();
+  const [state, setState] = useState({ active: today });
 
   useEffect(() => {
     if (calenderElement) {
@@ -31,10 +33,18 @@ const Calender = () => {
     const totalDaysInThisMonth = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
     return Array.from(Array(totalDaysInThisMonth).keys()).map((day, index) => {
       const date = day + 1 < 9 ? `0${day + 1}` : `${day + 1}`;
-      const dateFormatted = `${new Date().getFullYear()}-0${new Date().getMonth() + 1}-${date}`;
-      const dayOfDate = dayjs(dateFormatted).day();
+      const dateFormattedString = `${new Date().getFullYear()}-0${new Date().getMonth() + 1}-${date}`;
+      const dayOfDate = dayjs(dateFormattedString).day();
+      const habitsDate = dayjs(dateFormattedString).date();
       return (
-        <li key={day} className={cx({ active: today === dayjs(dateFormatted).date() })}>
+        <li
+          key={day}
+          className={cx({ active: state.active === habitsDate })}
+          onClick={() => {
+            setState({ active: habitsDate });
+            showHabits(dayjs(dateFormattedString).format(constants.FORMAT.DATE));
+          }}
+        >
           <span>{days[dayOfDate]}</span>
           <span>{day + 1}</span>
         </li>
