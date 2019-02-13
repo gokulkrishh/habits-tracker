@@ -50,9 +50,9 @@ const AddHabit = ({ onClose, show }) => {
       name,
       time
     };
-    const updateHabits = localStorageUtils.set(today, request);
+    localStorageUtils.set(today, request);
     dispatch({ type: "reset", payload: initialState });
-    onClose(updateHabits);
+    onClose();
   };
 
   const reminderClickCallback = day => {

@@ -28,13 +28,19 @@ const Calender = ({ showHabits }) => {
     }
   };
 
+  const getTotalDaysInThisMonth = () => {
+    const dateObj = new Date();
+    const totalDaysInThisMonth = new Date(dateObj.getFullYear(), dateObj.getMonth() + 1, 0).getDate();
+    return Array.from(Array(totalDaysInThisMonth).keys());
+  };
+
   const renderDays = () => {
     const days = constants.DAYS;
-    const totalDaysInThisMonth = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
-    return Array.from(Array(totalDaysInThisMonth).keys()).map((day, index) => {
+    const noOfDaysInCurrentMonth = getTotalDaysInThisMonth();
+    return noOfDaysInCurrentMonth.map((day, index) => {
       const date = day + 1 < 9 ? `0${day + 1}` : `${day + 1}`;
       const dateFormattedString = `${new Date().getFullYear()}-0${new Date().getMonth() + 1}-${date}`;
-      const dayOfDate = dayjs(dateFormattedString).day();
+      const dayOfThisDate = days[dayjs(dateFormattedString).day()];
       const habitsDate = dayjs(dateFormattedString).date();
       return (
         <li
@@ -45,7 +51,7 @@ const Calender = ({ showHabits }) => {
             showHabits(dayjs(dateFormattedString).format(constants.FORMAT.DATE));
           }}
         >
-          <span>{days[dayOfDate]}</span>
+          <span>{dayOfThisDate}</span>
           <span>{day + 1}</span>
         </li>
       );

@@ -1,30 +1,28 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import dayjs from "dayjs";
 
 import AddSVG from "./add.svg";
 import tickSVG from "./tick.svg";
 
+import constants from "../constants";
 import localStorageUtils from "../localStorageUtils";
 
 import AddHabit from "../AddHabit";
 
 import "./styles.scss";
 
-const Habits = ({ habits }) => {
+const Habits = props => {
+  const today = dayjs().format(constants.FORMAT.DATE);
   const [state, setState] = useState({
-    habits: habits,
+    habits: localStorageUtils.get(today),
     show: false
   });
 
-  const { habits: savedHabits, show } = state;
-
-  useEffect(() => {
-    setState({ ...state, habits });
-  });
+  const { habits, show } = state;
 
   const updatedHabit = currentHabit => {
     let updateKey = null;
-    savedHabits.forEach(habit => {
+    habits.forEach(habit => {
       if (habit.id === currentHabit.id) {
         updateKey = habit.createdDate;
         habit.done = !habit.done;
@@ -42,7 +40,7 @@ const Habits = ({ habits }) => {
   };
 
   const renderHabits = () => {
-    if (!savedHabits.length) {
+    if (!habits.length) {
       return (
         <div className="Habits__empty">
           <h2>
@@ -57,7 +55,7 @@ const Habits = ({ habits }) => {
 
     return (
       <>
-        {savedHabits.map(habit => {
+        {habits.map(habit => {
           return (
             <div className="card" key={habit.id}>
               <div className="card__left">
@@ -100,8 +98,8 @@ const Habits = ({ habits }) => {
       </div>
 
       <AddHabit
-        onClose={habits => {
-          setState({ habits, show: !show });
+        onClose={() => {
+          setState({ ...state, show: !show });
         }}
         show={show}
       />
