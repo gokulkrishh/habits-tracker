@@ -24,7 +24,7 @@ const reducer = (state, action) => {
   }
 };
 
-const AddHabit = ({ onClose, show, onHabitAdd }) => {
+const AddHabit = ({ onClose, show, onAdd }) => {
   const initialState = {
     name: "",
     time: "",
@@ -52,7 +52,7 @@ const AddHabit = ({ onClose, show, onHabitAdd }) => {
     };
     const updatedHabitData = localStorageUtils.set(today, request);
     dispatch({ type: "reset", payload: initialState });
-    onHabitAdd(updatedHabitData);
+    onAdd(updatedHabitData);
   };
 
   const reminderClickCallback = day => {
@@ -68,88 +68,90 @@ const AddHabit = ({ onClose, show, onHabitAdd }) => {
 
   return (
     <>
-      <div className={cx("AddHabit", { show })}>
-        <h2>Add Habit</h2>
-        <form className="form" autoComplete="off" onSubmit={onFormSubmit}>
-          <div className="form__group">
-            <label>Name:</label>
-            <input
-              type="text"
-              placeholder="Go for jog"
-              name="name"
-              onChange={event => {
-                dispatch({ type: "name", payload: event.target.value });
-              }}
-              value={state.name}
-              required
-            />
-          </div>
-
-          <div className="form__group form__group-row">
-            <div>
-              <label>Time:</label>
+      <div className={cx("Modal", { show })}>
+        <div className="AddHabit">
+          <h2>Add Habit</h2>
+          <form className="form" autoComplete="off" onSubmit={onFormSubmit}>
+            <div className="form__group">
+              <label>Name:</label>
               <input
                 type="text"
-                placeholder="6 AM or 8 PM"
-                name="time"
+                placeholder="Go for jog"
+                name="name"
                 onChange={event => {
-                  dispatch({ type: "time", payload: event.target.value });
+                  dispatch({ type: "name", payload: event.target.value });
                 }}
-                value={state.time}
+                value={state.name}
                 required
               />
             </div>
 
-            <div>
-              <label>Note:</label>
-              <input
-                type="text"
-                placeholder="(Optional)"
-                name="note"
-                onChange={event => {
-                  dispatch({ type: "note", payload: event.target.value });
-                }}
-                value={state.note}
-              />
-            </div>
-          </div>
+            <div className="form__group form__group-row">
+              <div>
+                <label>Time:</label>
+                <input
+                  type="text"
+                  placeholder="6 AM or 8 PM"
+                  name="time"
+                  onChange={event => {
+                    dispatch({ type: "time", payload: event.target.value });
+                  }}
+                  value={state.time}
+                  required
+                />
+              </div>
 
-          <div className="form__group">
-            <label>Days:</label>
-            <div className="form__days">
-              {constants.DAYS.map(day => {
-                const isActive = state.reminders.indexOf(day) > -1;
-                return (
-                  <span
-                    className={cx({ active: isActive })}
-                    key={day}
-                    onClick={() => {
-                      reminderClickCallback(day);
-                    }}
-                  >
-                    {day.charAt(0)}
-                  </span>
-                );
-              })}
+              <div>
+                <label>Note:</label>
+                <input
+                  type="text"
+                  placeholder="(Optional)"
+                  name="note"
+                  onChange={event => {
+                    dispatch({ type: "note", payload: event.target.value });
+                  }}
+                  value={state.note}
+                />
+              </div>
             </div>
-          </div>
 
-          <div className="form__group">
-            <div className="form__group-row">
-              <button
-                onClick={() => {
-                  onClose();
-                }}
-              >
-                Cancel
-              </button>
-              <button className="primary">Add Habit</button>
+            <div className="form__group">
+              <label>Days:</label>
+              <div className="form__days">
+                {constants.DAYS.map(day => {
+                  const isActive = state.reminders.indexOf(day) > -1;
+                  return (
+                    <span
+                      className={cx({ active: isActive })}
+                      key={day}
+                      onClick={() => {
+                        reminderClickCallback(day);
+                      }}
+                    >
+                      {day.charAt(0)}
+                    </span>
+                  );
+                })}
+              </div>
             </div>
-          </div>
-        </form>
+
+            <div className="form__group">
+              <div className="form__group-row">
+                <button
+                  onClick={() => {
+                    onClose();
+                  }}
+                >
+                  Cancel
+                </button>
+                <button className="primary">Add Habit</button>
+              </div>
+            </div>
+          </form>
+        </div>
       </div>
       <div
-        className={cx("AddHabit__overlay", { show })}
+        className={cx("Modal__overlay", { show })}
         onClick={() => {
           onClose();
         }}

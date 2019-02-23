@@ -1,4 +1,4 @@
-.AddHabit__overlay {
+.Modal__overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -12,7 +12,7 @@
   }
 }
 
-.AddHabit {
+.Modal {
   position: fixed;
   left: 0;
   right: 0;
@@ -21,18 +21,21 @@
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   transform: translateY(100%);
-  min-height: 430px;
   padding: 15px;
   transition: transform 200ms ease-in-out;
   max-width: 600px;
   margin: auto;
-  box-shadow: 0 0px 8px rgba(0,0,0,0.17);
+  box-shadow: 0 0 8px rgba(0,0,0,0.17);
   will-change: transform;
   z-index: 1;
 
   &.show {
     transform: translateY(0);
   }
+}
+
+.AddHabit {
+  min-height: 390px;
 
   h2 {
     font-size: 25px;

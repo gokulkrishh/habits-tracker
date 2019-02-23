@@ -45,8 +45,11 @@ const localStorageUtils = {
     return data;
   },
 
-  remove(key) {
-    localStorage.removeItem(key);
+  remove(key, id) {
+    let storedData = JSON.parse(localStorage.getItem(constants.STORAGE_KEYS.HABITS));
+    storedData[key] = storedData[key].filter(data => data.id !== id);
+    localStorage.setItem(constants.STORAGE_KEYS.HABITS, JSON.stringify(storedData));
+    return storedData[key];
   }
 };
 

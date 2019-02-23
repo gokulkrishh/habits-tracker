@@ -15,6 +15,10 @@ button {
     background-color: #2974ff;
   }
 
+  &.delete {
+    background-color: #e64a19;
+  }
+
   &:active {
     opacity: 0.7;
   }

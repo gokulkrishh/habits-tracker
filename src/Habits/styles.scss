@@ -51,6 +51,7 @@
     height: 20px;
     display: inline-block;
     line-height: 20px;
+    user-select: none;
   }
 
   &__checkbox {
@@ -91,6 +92,7 @@
   &__info {
     display: flex;
     flex-direction: column;
+    user-select: none;
   }
 
   .name {

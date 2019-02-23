@@ -1,24 +1,26 @@
 import React, { useState } from "react";
 import dayjs from "dayjs";
 
-import AddSVG from "./add.svg";
-import tickSVG from "./tick.svg";
-
+import AddHabit from "../AddHabit";
 import constants from "../constants";
+import HabitActions from "../HabitActions";
 import localStorageUtils from "../localStorageUtils";
 
-import AddHabit from "../AddHabit";
+import AddSVG from "./add.svg";
+import TickSVG from "./tick.svg";
 
 import "./styles.scss";
 
-const Habits = props => {
+const Habits = () => {
   const today = dayjs().format(constants.FORMAT.DATE);
   const [state, setState] = useState({
     habits: localStorageUtils.get(today),
-    show: false
+    show: false,
+    actions: false,
+    selected: {}
   });
 
-  const { habits, show } = state;
+  const { habits, show, actions, selected } = state;
 
   const updatedHabit = currentHabit => {
     let updateKey = null;
@@ -32,7 +34,6 @@ const Habits = props => {
         }
       }
     });
-
     if (updateKey) {
       localStorageUtils.update(updateKey, habits);
       setState({ ...state, habits });
@@ -43,13 +44,17 @@ const Habits = props => {
     setState({ habits, show: false });
   };
 
+  const onUpdate = habits => {
+    setState({ ...state, habits, actions: false, selected: {} });
+  };
+
   let timeout = null;
 
-  const onMousedown = () => {
+  const onMousedown = habit => {
     if (timeout) clearTimeout(timeout);
     timeout = setTimeout(() => {
-      console.log("came --->");
-    }, 500);
+      setState({ ...state, actions: true, selected: habit });
+    }, 900);
   };
 
   const renderHabits = () => {
@@ -70,7 +75,13 @@ const Habits = props => {
       <>
         {habits.map(habit => {
           return (
-            <div className="card" key={habit.id} onMouseDown={onMousedown}>
+            <div
+              className="card"
+              key={habit.id}
+              onMouseDown={() => {
+                onMousedown(habit);
+              }}
+            >
               <div className="card__left">
                 <label className="card__checkbox">
                   <input
@@ -81,7 +92,7 @@ const Habits = props => {
                     }}
                   />
                   <span>
-                    <img src={tickSVG} alt="done" />
+                    <img src={TickSVG} alt="done" />
                   </span>
                 </label>
 
@@ -103,7 +114,7 @@ const Habits = props => {
 
   return (
     <div className="Habits">
-      {renderHabits()}
+      {renderHabits(habits)}
       <div className="AddHabits">
         <button onClick={() => setState({ ...state, show: !show })} className="primary">
           <img src={AddSVG} alt="Add" /> Add Habits
@@ -115,7 +126,16 @@ const Habits = props => {
           setState({ ...state, show: !show });
         }}
         show={show}
-        onHabitAdd={onHabitAdd}
+        onAdd={onHabitAdd}
+      />
+
+      <HabitActions
+        onClose={() => {
+          setState({ ...state, actions: !actions });
+        }}
+        show={actions}
+        selected={selected}
+        onUpdate={onUpdate}
       />
     </div>
   );
