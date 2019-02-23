@@ -94,12 +94,22 @@
   }
 
   .name {
-    margin-bottom: 8px;
+    margin-bottom: 5px;
+  }
+
+  .time,
+  .notes {
+    color: grey;
+    font-size: 14px;
+    display: inline-block;
   }
 
   .time {
-    color: grey;
-    font-size: 14px
+    margin-bottom: 5px;
+  }
+
+  .notes {
+    font-style: italic;
   }
 }
 
@@ -122,6 +132,7 @@
     margin: -10px auto;
     appearance: none;
     font-weight: 600;
+    user-select: none;
 
     img {
       width: 21px;

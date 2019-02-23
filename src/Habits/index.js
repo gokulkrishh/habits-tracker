@@ -39,6 +39,19 @@ const Habits = props => {
     }
   };
 
+  const onHabitAdd = habits => {
+    setState({ habits, show: false });
+  };
+
+  let timeout = null;
+
+  const onMousedown = () => {
+    if (timeout) clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      console.log("came --->");
+    }, 500);
+  };
+
   const renderHabits = () => {
     if (!habits.length) {
       return (
@@ -57,7 +70,7 @@ const Habits = props => {
       <>
         {habits.map(habit => {
           return (
-            <div className="card" key={habit.id}>
+            <div className="card" key={habit.id} onMouseDown={onMousedown}>
               <div className="card__left">
                 <label className="card__checkbox">
                   <input
@@ -75,7 +88,7 @@ const Habits = props => {
                 <div className="card__info">
                   <h3 className="name">{habit.name}</h3>
                   <span className="time">{habit.time}</span>
-                  <span className="time">{habit.notes}</span>
+                  <span className="notes">{habit.notes}</span>
                 </div>
               </div>
               <div className="card__right">
@@ -102,6 +115,7 @@ const Habits = props => {
           setState({ ...state, show: !show });
         }}
         show={show}
+        onHabitAdd={onHabitAdd}
       />
     </div>
   );

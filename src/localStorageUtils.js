@@ -32,8 +32,8 @@ const localStorageUtils = {
 
   get(key, namespace = constants.STORAGE_KEYS.HABITS) {
     const item = localStorage.getItem(namespace);
-    if (!item) return {};
-    return JSON.parse(item)[key] || [];
+    if (!item) return [];
+    return JSON.parse(item)[key];
   },
 
   getAll() {
@@ -49,9 +49,5 @@ const localStorageUtils = {
     localStorage.removeItem(key);
   }
 };
-
-if (!localStorageUtils.getAll().length) {
-  localStorageUtils.init();
-}
 
 export default localStorageUtils;

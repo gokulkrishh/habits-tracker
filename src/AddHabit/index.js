@@ -13,8 +13,8 @@ const reducer = (state, action) => {
       return { ...state, name: action.payload };
     case "time":
       return { ...state, time: action.payload };
-    case "note":
-      return { ...state, note: action.payload };
+    case "notes":
+      return { ...state, notes: action.payload };
     case "reminders":
       return { ...state, reminders: action.payload };
     case "reset":
@@ -24,11 +24,11 @@ const reducer = (state, action) => {
   }
 };
 
-const AddHabit = ({ onClose, show }) => {
+const AddHabit = ({ onClose, show, onHabitAdd }) => {
   const initialState = {
     name: "",
     time: "",
-    note: "",
+    notes: "",
     reminders: constants.DAYS.slice()
   };
 
@@ -36,7 +36,7 @@ const AddHabit = ({ onClose, show }) => {
 
   const onFormSubmit = event => {
     event.preventDefault();
-    const { name, note, time, reminders } = state;
+    const { name, notes, time, reminders } = state;
     const date = dayjs();
     const today = date.format(constants.FORMAT.DATE);
     const request = {
@@ -46,13 +46,13 @@ const AddHabit = ({ onClose, show }) => {
       done: false,
       steaks: 0,
       reminders,
-      note,
+      notes,
       name,
       time
     };
-    localStorageUtils.set(today, request);
+    const updatedHabitData = localStorageUtils.set(today, request);
     dispatch({ type: "reset", payload: initialState });
-    onClose();
+    onHabitAdd(updatedHabitData);
   };
 
   const reminderClickCallback = day => {
