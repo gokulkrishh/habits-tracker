@@ -1,7 +1,8 @@
 .Calender {
   height: 82px;
   background-color: #e6e6e6;
-  overflow: scroll;
+  overflow-x: scroll;
+  -webkit-overflow-scrolling: touch;
   display: flex;
 
   ul {
