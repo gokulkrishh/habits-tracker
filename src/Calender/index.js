@@ -6,14 +6,13 @@ import "./styles.scss";
 
 import constants from "../constants";
 
-const Calender = ({ showHabits }) => {
+const Calender = () => {
   let calenderElement = useRef();
-  const today = dayjs().date();
-  const [state, setState] = useState({ active: today });
+  const [state, setState] = useState({ active: dayjs().date() });
 
   useEffect(() => {
     if (calenderElement) {
-      scrollTodayIntoMiddle();
+      scrollToToday();
     }
 
     return () => {
@@ -21,34 +20,32 @@ const Calender = ({ showHabits }) => {
     };
   }, []);
 
-  const scrollTodayIntoMiddle = () => {
+  const scrollToToday = () => {
     const todayElement = Array.from(calenderElement.children).filter(ele => ele.classList.contains("active"));
     if (todayElement.length) {
       todayElement[0].scrollIntoView({ behavior: "smooth", block: "center", inline: "center" });
     }
   };
 
-  const getTotalDaysInThisMonth = () => {
+  const getDays = () => {
     const dateObj = new Date();
     const totalDaysInThisMonth = new Date(dateObj.getFullYear(), dateObj.getMonth() + 1, 0).getDate();
     return Array.from(Array(totalDaysInThisMonth).keys());
   };
 
-  const renderDays = () => {
+  const render = () => {
     const days = constants.DAYS;
-    const noOfDaysInCurrentMonth = getTotalDaysInThisMonth();
-    return noOfDaysInCurrentMonth.map((day, index) => {
+    return getDays().map((day, index) => {
       const date = day + 1 < 9 ? `0${day + 1}` : `${day + 1}`;
       const dateFormattedString = `${new Date().getFullYear()}-0${new Date().getMonth() + 1}-${date}`;
       const dayOfThisDate = days[dayjs(dateFormattedString).day()];
-      const habitsDate = dayjs(dateFormattedString).date();
+      const selectedDate = dayjs(dateFormattedString).date();
       return (
         <li
           key={day}
-          className={cx({ active: state.active === habitsDate })}
+          className={cx({ active: state.active === selectedDate })}
           onClick={() => {
-            setState({ active: habitsDate });
-            showHabits(dayjs(dateFormattedString).format(constants.FORMAT.DATE));
+            setState({ active: selectedDate });
           }}
         >
           <span>{dayOfThisDate}</span>
@@ -66,7 +63,7 @@ const Calender = ({ showHabits }) => {
           calenderElement = ref;
         }}
       >
-        {renderDays()}
+        {render()}
       </ul>
     </div>
   );
