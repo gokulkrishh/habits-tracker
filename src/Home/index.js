@@ -11,16 +11,23 @@ import "./styles.scss";
 
 const Home = () => {
   const today = dayjs().format(constants.FORMAT.DATE);
-  const [habits, setState] = useState(localStorageUtils.get(today));
+  const [state, setState] = useState({ shouldScrollToSelectedDay: false, selectedDate: today });
 
-  const showHabits = date => {
-    setState(localStorageUtils.get(date));
+  const showHabits = selectedDate => {
+    setState({ shouldScrollToSelectedDay: false, selectedDate });
   };
+
+  const scrollToSelectedDay = () => {
+    setState({ shouldScrollToSelectedDay: true, selectedDate: today });
+  };
+
+  const { selectedDate, shouldScrollToSelectedDay } = state;
+  const habits = localStorageUtils.get(selectedDate) || [];
 
   return (
     <div className="Home">
-      <h1>My Habits</h1>
-      <Calender showHabits={showHabits} />
+      <h1 onClick={scrollToSelectedDay}>My Habits</h1>
+      <Calender showHabits={showHabits} shouldScrollToSelectedDay={shouldScrollToSelectedDay} />
       <Habits habits={habits} />
     </div>
   );

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import dayjs from "dayjs";
 import cx from "classnames";
 
@@ -6,14 +6,20 @@ import "./styles.scss";
 
 import constants from "../constants";
 
-const Calender = ({ showHabits }) => {
+const Calender = ({ showHabits, shouldScrollToSelectedDay }) => {
   let calenderElement = useRef();
   const today = dayjs().date();
   const [state, setState] = useState({ active: today });
 
+  useLayoutEffect(() => {
+    if (shouldScrollToSelectedDay) {
+      scrollToSelectedDay();
+    }
+  });
+
   useEffect(() => {
     if (calenderElement) {
-      scrollTodayIntoMiddle();
+      scrollToSelectedDay();
     }
 
     return () => {
@@ -21,10 +27,10 @@ const Calender = ({ showHabits }) => {
     };
   }, []);
 
-  const scrollTodayIntoMiddle = () => {
-    const todayElement = Array.from(calenderElement.children).filter(ele => ele.classList.contains("active"));
-    if (todayElement.length) {
-      todayElement[0].scrollIntoView({ behavior: "smooth", block: "center", inline: "center" });
+  const scrollToSelectedDay = () => {
+    const element = Array.from(calenderElement.children).filter(ele => ele.classList.contains("active"));
+    if (element.length) {
+      element[0].scrollIntoView({ behavior: "smooth", block: "center", inline: "center" });
     }
   };
 

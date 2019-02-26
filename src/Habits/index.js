@@ -1,8 +1,6 @@
-import React, { useState } from "react";
-import dayjs from "dayjs";
+import React, { useEffect, useState } from "react";
 
 import AddHabit from "../AddHabit";
-import constants from "../constants";
 import HabitActions from "../HabitActions";
 import localStorageUtils from "../localStorageUtils";
 
@@ -11,16 +9,22 @@ import TickSVG from "./tick.svg";
 
 import "./styles.scss";
 
-const Habits = () => {
-  const today = dayjs().format(constants.FORMAT.DATE);
+const Habits = props => {
   const [state, setState] = useState({
-    habits: localStorageUtils.get(today),
+    habits: props.habits,
     show: false,
     actions: false,
     selected: {}
   });
 
   const { habits, show, actions, selected } = state;
+
+  useEffect(() => {
+    setState({
+      ...state,
+      habits: props.habits
+    });
+  }, [props.habits]);
 
   const updatedHabit = currentHabit => {
     let updateKey = null;
@@ -48,15 +52,6 @@ const Habits = () => {
     setState({ ...state, habits, actions: false, selected: {} });
   };
 
-  let timeout = null;
-
-  const onMousedown = habit => {
-    if (timeout) clearTimeout(timeout);
-    timeout = setTimeout(() => {
-      setState({ ...state, actions: true, selected: habit });
-    }, 900);
-  };
-
   const renderHabits = () => {
     if (!habits.length) {
       return (
@@ -75,13 +70,7 @@ const Habits = () => {
       <>
         {habits.map(habit => {
           return (
-            <div
-              className="card"
-              key={habit.id}
-              onMouseDown={() => {
-                onMousedown(habit);
-              }}
-            >
+            <div className="card" key={habit.id}>
               <div className="card__left">
                 <label className="card__checkbox">
                   <input

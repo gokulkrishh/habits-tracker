@@ -141,6 +141,7 @@ const AddHabit = ({ onClose, show, onAdd }) => {
                   onClick={() => {
                     onClose();
                   }}
+                  type="button"
                 >
                   Cancel
                 </button>

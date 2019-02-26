@@ -20,9 +20,9 @@
   background-color: #fff;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  transform: translateY(100%);
+  transform: translateY(102%);
   padding: 15px;
-  transition: transform 200ms ease-in-out;
+  transition: transform 0.33s cubic-bezier(0, 0, 0.30, 1);
   max-width: 600px;
   margin: auto;
   box-shadow: 0 0 8px rgba(0,0,0,0.17);
@@ -35,18 +35,18 @@
 }
 
 .AddHabit {
-  min-height: 390px;
+  min-height: 360px;
 
   h2 {
     font-size: 25px;
-    margin: 5px 0 10px;
+    margin-bottom: 10px;
   }
 
   .form__group {
     display: flex;
     min-height: 55px;
     flex-direction: column;
-    padding: 10px 0;
+    padding: 5px 0;
   }
 
   .form__group-row {
@@ -123,6 +123,8 @@
     font-size: 14px;
     margin: 5px 0;
     cursor: pointer;
+    margin-top: 15px;
+    user-select: none;
   }
 
   button + button {
@@ -133,8 +135,6 @@
 
 @media all and (max-width: 480px) {
   .AddHabit {
-    max-height: 515px;
-
     .form__group-row {
       flex-direction: column;
 

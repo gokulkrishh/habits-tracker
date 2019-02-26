@@ -11,6 +11,7 @@ import "./styles.scss";
 
 const HabitActions = ({ onClose, onUpdate, selected, show }) => {
   const today = dayjs().format(constants.FORMAT.DATE);
+
   const onAction = () => {
     const updatedHabits = localStorageUtils.remove(today, selected.id);
     onUpdate(updatedHabits);
