@@ -134,7 +134,9 @@ const AddHabits = ({ onFormSubmit }) => {
     event.preventDefault()
 
     const { name, notes, time, reminders } = state
-    const today = dayjs().format(constants.FORMAT.DATE)
+    const today = dayjs()
+      .subtract(1, 'day')
+      .format(constants.FORMAT.DATE)
 
     const [hours, minutes] = time.split(':')
     const formattedTime = `${hours - 12}:${minutes} ${hours < 12 ? 'AM' : 'PM'} `

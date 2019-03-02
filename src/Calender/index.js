@@ -86,12 +86,12 @@ const Calender = ({ onChange }) => {
 
   const formattedDateStr = day => {
     const dateObj = new Date()
-    return `${dateObj.getFullYear()}-0${dateObj.getMonth() + 1}-${day}`
+    return `${dateObj.getFullYear()}-0${dateObj.getMonth() + 1}-${day + 1}`
   }
 
   const renderListItems = () => {
     return totalDaysInThisMonth().map(day => {
-      const date = dayjs(formattedDateStr(day + 1))
+      const date = dayjs(formattedDateStr(day))
       const activeDate = dayjs(formattedDateStr(day)).date()
       return (
         <ListItem
