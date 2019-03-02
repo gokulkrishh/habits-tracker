@@ -89,6 +89,10 @@ const FormGroup = styled.div`
     }
   }
 
+  input[name='time'] {
+    background-color: #fff;
+  }
+
   button {
     width: 46%;
     height: 40px;
@@ -132,6 +136,9 @@ const AddHabits = ({ onFormSubmit }) => {
     const { name, notes, time, reminders } = state
     const today = dayjs().format(constants.FORMAT.DATE)
 
+    const [hours, minutes] = time.split(':')
+    const formattedTime = `${hours - 12}:${minutes} ${hours < 12 ? 'AM' : 'PM'} `
+
     const request = {
       created: today,
       done: {},
@@ -139,7 +146,7 @@ const AddHabits = ({ onFormSubmit }) => {
       notes,
       reminders,
       streak: 0,
-      time
+      time: formattedTime
     }
     Database.habits.add(request)
     dispatch({ type: 'reset', payload: initialState })
@@ -188,7 +195,7 @@ const AddHabits = ({ onFormSubmit }) => {
             <div>
               <label>Time:</label>
               <input
-                type="text"
+                type="time"
                 placeholder="6 AM or 8 PM"
                 name="time"
                 onChange={event => {
