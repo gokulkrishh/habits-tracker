@@ -91,6 +91,7 @@ const FormGroup = styled.div`
 
   input[name='time'] {
     background-color: #fff;
+    color: #9d9d9d;
   }
 
   button {
@@ -134,12 +135,18 @@ const AddHabits = ({ onFormSubmit }) => {
     event.preventDefault()
 
     const { name, notes, time, reminders } = state
-    const today = dayjs()
-      .subtract(1, 'day')
-      .format(constants.FORMAT.DATE)
+    const today = dayjs().format(constants.FORMAT.DATE)
 
-    const [hours, minutes] = time.split(':')
-    const formattedTime = `${hours - 12}:${minutes} ${hours < 12 ? 'AM' : 'PM'} `
+    const tConv24 = time24 => {
+      var ts = time24
+      var H = +ts.substr(0, 2)
+      var h = H % 12 || 12
+      h = h < 10 ? '0' + h : h
+      var ampm = H < 12 ? ' AM' : ' PM'
+      return h + ts.substr(2, 3) + ampm
+    }
+
+    const formattedTime = tConv24(time)
 
     const request = {
       created: today,
@@ -184,7 +191,7 @@ const AddHabits = ({ onFormSubmit }) => {
             <label>Name:</label>
             <input
               type="text"
-              placeholder="Go for jog"
+              placeholder="Go for jog (or) read books"
               name="name"
               onChange={event => {
                 dispatch({ type: 'name', payload: event.target.value })
@@ -198,7 +205,6 @@ const AddHabits = ({ onFormSubmit }) => {
               <label>Time:</label>
               <input
                 type="time"
-                placeholder="6 AM or 8 PM"
                 name="time"
                 onChange={event => {
                   dispatch({ type: 'time', payload: event.target.value })
