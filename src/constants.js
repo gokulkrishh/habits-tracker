@@ -1,9 +1,10 @@
 export default {
   STORAGE_KEYS: {
-    HABITS: "HABITS"
+    HABITS: 'HABITS'
   },
-  DAYS: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+  DAYS: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
   FORMAT: {
-    DATE: "DD-MMM-YYYY"
-  }
-};
+    DATE: 'DD-MMM-YYYY'
+  },
+  DONE: 'TRUE'
+}
