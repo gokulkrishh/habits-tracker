@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import dayjs from 'dayjs'
 import styled, { createGlobalStyle } from 'styled-components'
 
+import AddHabits from './AddHabits'
 import Calender from './Calender'
 import constants from './constants'
 import Habits from './Habits'
@@ -110,6 +111,7 @@ const App = () => {
       <H1> My Habits </H1>
       <Calender onChange={onChange} />
       <Habits selectedDate={selectedDate} />
+      <AddHabits onFormSubmit={() => {}} />
     </div>
   )
 }

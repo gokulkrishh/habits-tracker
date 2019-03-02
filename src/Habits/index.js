@@ -3,7 +3,6 @@ import dayjs from 'dayjs'
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
-import AddHabits from '../AddHabits'
 import constants from '../constants'
 import TickSVG from './tick.svg'
 
@@ -167,7 +166,7 @@ const Habits = ({ selectedDate }) => {
     }
 
     return (
-      <>
+      <div>
         {habits.map(habit => {
           return (
             <Card key={habit.id} className={!dayjs(selectedDate).isSame(today) ? 'readonly' : ''}>
@@ -195,8 +194,7 @@ const Habits = ({ selectedDate }) => {
             </Card>
           )
         })}
-        <AddHabits onFormSubmit={getHabits} />
-      </>
+      </div>
     )
   }
 
