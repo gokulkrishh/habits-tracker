@@ -4,8 +4,10 @@ export default {
   },
   DAYS: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
   FORMAT: {
-    DATE: 'DD-MMM-YYYY'
+    DATE: 'DD-MMM-YYYY',
+    MONTH: 'DD MMM YYYY'
   },
   HABITS: 'HABITS',
+  SHOW_ALL_HABITS: 'SHOW_ALL_HABITS',
   SELECTED_DATE: 'SELECTED_DATE'
 }

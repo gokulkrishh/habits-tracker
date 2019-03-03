@@ -3,43 +3,11 @@ import dayjs from 'dayjs'
 import React, { useReducer } from 'react'
 import styled from 'styled-components'
 
-import { Button } from '../Components/index'
+import { Button, Modal, ModalOverlay } from '../Components/index'
 import constants from '../constants'
 import reducer from './reducer'
 
 const Container = styled.div``
-
-const Modal = styled.div`
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #fff;
-  border-top-left-radius: 12px;
-  border-top-right-radius: 12px;
-  transform: translateY(102%);
-  padding: 15px;
-  transition: transform 0.33s cubic-bezier(0, 0, 0.3, 1);
-  max-width: 600px;
-  margin: auto;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.17);
-  will-change: transform;
-  z-index: 1;
-
-  ${({ show }) => show && `transform: translateY(0);`}
-`
-
-const ModalOverlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.2);
-  display: none;
-
-  ${({ show }) => show && `display: block;`}
-`
 
 const FormGroup = styled.div`
   display: flex;

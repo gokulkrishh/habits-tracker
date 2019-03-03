@@ -7,6 +7,8 @@ const reducer = (state = initialState, action) => {
       return { ...state, selectedDate: action.payload }
     case constants.HABITS:
       return { ...state, habits: action.payload }
+    case constants.SHOW_ALL_HABITS:
+      return { ...state, isAllHabitsVisible: action.payload }
     default:
       return state
   }

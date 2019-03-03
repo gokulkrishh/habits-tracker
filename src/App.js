@@ -1,8 +1,8 @@
 import React, { useReducer, useEffect } from 'react'
-import styled, { createGlobalStyle } from 'styled-components'
+import { createGlobalStyle } from 'styled-components'
 import dayjs from 'dayjs'
 
-import { Button } from './Components'
+import { Button, H1 } from './Components'
 import AddHabits from './AddHabits'
 import Calender from './Calender'
 import constants from './constants'
@@ -11,6 +11,7 @@ import Database from './Database'
 import Habits from './Habits'
 import initialState from './initialState'
 import reducer from './reducer'
+import AllHabits from './AllHabits'
 
 const GlobalStyles = createGlobalStyle`
   * {
@@ -89,17 +90,9 @@ const GlobalStyles = createGlobalStyle`
   }
 `
 
-const H1 = styled.h1`
-  background-color: #f7f7f7;
-  padding: 15px 20px 20px;
-  position: sticky;
-  top: 0;
-  cursor: pointer;
-`
-
 const App = () => {
   const [state, dispatch] = useReducer(reducer, initialState)
-  const { selectedDate, habits } = state
+  const { selectedDate, habits, isAllHabitsVisible } = state
 
   const selectedDay = dayjs(selectedDate).day()
 
@@ -122,15 +115,23 @@ const App = () => {
     getHabits()
   }, [selectedDate])
 
+  const toggleAllHabits = () => {
+    dispatch({ type: constants.SHOW_ALL_HABITS, payload: !isAllHabitsVisible })
+  }
+
   return (
     <div className="App">
       <GlobalStyles />
       <Context.Provider value={dispatch}>
         <H1>
-          My Habits <Button type="transparent">All Habits</Button>
+          My Habits{' '}
+          <Button type="transparent" onClick={toggleAllHabits}>
+            All Habits
+          </Button>
         </H1>
         <Calender />
         <Habits selectedDate={selectedDate} habits={habits} />
+        <AllHabits show={isAllHabitsVisible} onClose={toggleAllHabits} />
         <AddHabits />
       </Context.Provider>
     </div>
