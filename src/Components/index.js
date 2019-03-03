@@ -19,6 +19,18 @@ const Button = styled.button`
 
   ${({ type }) => type === 'primary' && `background-color: #2974ff;`}
 
+  ${({ type }) =>
+    type === 'transparent' &&
+    `
+  background: #fff;
+  border: 1px solid #2974ff;
+  color: #2974ff;
+  width: 80px;
+  height: 24px;
+  font-size: 12px;
+  float: right;
+  margin-top: 5px;`}
+
   &:active {
     opacity: 0.7;
   }

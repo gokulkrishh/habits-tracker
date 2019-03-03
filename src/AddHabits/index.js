@@ -4,7 +4,6 @@ import React, { useReducer } from 'react'
 import styled from 'styled-components'
 
 import { Button } from '../Components/index'
-import AddSVG from './add-icon.svg'
 import constants from '../constants'
 import reducer from './reducer'
 
@@ -68,7 +67,7 @@ const FormGroup = styled.div`
   }`}
 
   label {
-    font-size: 15px;
+    font-size: 16px;
     margin-bottom: 10px;
     margin-right: 10px;
     font-weight: 600;
@@ -106,7 +105,7 @@ const FormGroup = styled.div`
 
 const ButtonContainer = styled.div`
   position: fixed;
-  bottom: 30px;
+  bottom: 15px;
   left: 0;
   right: 0;
 
@@ -118,9 +117,15 @@ const ButtonContainer = styled.div`
     margin: 0 auto;
     font-weight: 600;
   }
+
+  svg {
+    margin-right: 6px;
+    width: 22px;
+    margin-top: 1px;
+  }
 `
 
-const AddHabits = ({ onFormSubmit }) => {
+const AddHabits = () => {
   const initialState = {
     name: '',
     notes: '',
@@ -155,11 +160,13 @@ const AddHabits = ({ onFormSubmit }) => {
       notes,
       reminders,
       streak: 0,
-      time: formattedTime
+      time: formattedTime,
+      deleted: false
     }
+
     Database.habits.add(request)
+
     dispatch({ type: 'reset', payload: initialState })
-    onFormSubmit()
   }
 
   const onChangeCallback = day => {
@@ -172,15 +179,19 @@ const AddHabits = ({ onFormSubmit }) => {
     dispatch({ type: 'reminders', payload: state.reminders })
   }
 
-  const toggleModal = () => {
+  const toggleModalCallback = () => {
+    dispatch({ type: 'reset', payload: initialState })
     dispatch({ type: 'modal', payload: !state.show })
   }
 
   return (
     <Container>
       <ButtonContainer>
-        <Button type="primary" onClick={toggleModal}>
-          <img src={AddSVG} alt="Add Habits" />
+        <Button type="primary" onClick={toggleModalCallback}>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="#fff" width="24" height="24" viewBox="0 0 24 24">
+            <path fill="none" d="M0 0h24v24H0V0z" />
+            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+          </svg>
           Add Habits
         </Button>
       </ButtonContainer>
@@ -246,14 +257,14 @@ const AddHabits = ({ onFormSubmit }) => {
             </div>
           </FormGroup>
           <FormGroup direction="row">
-            <Button onClick={toggleModal} type="button">
+            <Button onClick={toggleModalCallback} type="button">
               Cancel
             </Button>
             <Button type="primary">Add Habit</Button>
           </FormGroup>
         </form>
       </Modal>
-      <ModalOverlay show={state.show} onClick={toggleModal} />
+      <ModalOverlay show={state.show} onClick={toggleModalCallback} />
     </Container>
   )
 }

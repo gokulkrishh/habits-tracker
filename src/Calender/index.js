@@ -1,8 +1,9 @@
 import dayjs from 'dayjs'
-import React, { useEffect, useLayoutEffect, useState, useRef } from 'react'
+import React, { useEffect, useLayoutEffect, useState, useRef, useContext } from 'react'
 import styled from 'styled-components'
 
 import constants from '../constants'
+import Context from '../context'
 
 const Container = styled.div`
   height: 82px;
@@ -48,11 +49,12 @@ const ListItem = styled.li`
   }
 `
 
-const Calender = ({ onChange }) => {
+const Calender = () => {
   let calenderEle = useRef(null)
+  const dispatch = useContext(Context)
 
   const [state, setState] = useState({
-    active: dayjs().date() - 1
+    active: dayjs().date()
   })
 
   useLayoutEffect(() => {
@@ -91,15 +93,16 @@ const Calender = ({ onChange }) => {
 
   const renderListItems = () => {
     return totalDaysInThisMonth().map(day => {
-      const date = dayjs(formattedDateStr(day))
-      const activeDate = dayjs(formattedDateStr(day)).date()
+      const formattedDate = formattedDateStr(day)
+      const date = dayjs(formattedDate)
+      const activeDate = dayjs(formattedDate).date()
       return (
         <ListItem
           key={day}
           className={state.active === activeDate ? 'active' : ''}
           onClick={() => {
             setState({ active: activeDate })
-            onChange(date.format(constants.FORMAT.DATE))
+            dispatch({ type: constants.SELECTED_DATE, payload: date.format(constants.FORMAT.DATE) })
           }}
         >
           <span>{constants.DAYS[date.day()]}</span>

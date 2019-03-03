@@ -1,11 +1,16 @@
-import React, { useState } from 'react'
-import dayjs from 'dayjs'
+import React, { useReducer, useEffect } from 'react'
 import styled, { createGlobalStyle } from 'styled-components'
+import dayjs from 'dayjs'
 
+import { Button } from './Components'
 import AddHabits from './AddHabits'
 import Calender from './Calender'
 import constants from './constants'
+import Context from './context'
+import Database from './Database'
 import Habits from './Habits'
+import initialState from './initialState'
+import reducer from './reducer'
 
 const GlobalStyles = createGlobalStyle`
   * {
@@ -43,7 +48,8 @@ const GlobalStyles = createGlobalStyle`
   }
 
   .form__days {
-    width: 350px;
+    min-width: 300px;
+    max-width: 350px;
     height: 48px;
     display: flex;
     align-items: center;
@@ -59,10 +65,6 @@ const GlobalStyles = createGlobalStyle`
       display: inline-flex;
       align-items: center;
       justify-content: space-around;
-
-      & + span {
-        margin-left: 10px;
-      }
 
       &.active {
         background-color: #2974ff;
@@ -96,22 +98,41 @@ const H1 = styled.h1`
 `
 
 const App = () => {
-  const today = dayjs().format(constants.FORMAT.DATE)
-  const [state, setState] = useState({ selectedDate: today })
+  const [state, dispatch] = useReducer(reducer, initialState)
+  const { selectedDate, habits } = state
 
-  const onChange = selectedDate => {
-    setState({ selectedDate })
+  const selectedDay = dayjs(selectedDate).day()
+
+  const getHabits = async () => {
+    let collection = await Database.habits.toArray()
+    const habits = collection.filter(habit => {
+      return habit.reminders.indexOf(constants.DAYS[selectedDay]) > -1 && !dayjs(habit.created).isAfter(selectedDate)
+    })
+
+    dispatch({ type: constants.HABITS, payload: habits })
   }
 
-  const { selectedDate } = state
+  useEffect(() => {
+    Database.on('changes', () => {
+      getHabits()
+    })
+  }, [])
+
+  useEffect(() => {
+    getHabits()
+  }, [selectedDate])
 
   return (
     <div className="App">
       <GlobalStyles />
-      <H1> My Habits </H1>
-      <Calender onChange={onChange} />
-      <Habits selectedDate={selectedDate} />
-      <AddHabits onFormSubmit={() => {}} />
+      <Context.Provider value={dispatch}>
+        <H1>
+          My Habits <Button type="transparent">All Habits</Button>
+        </H1>
+        <Calender />
+        <Habits selectedDate={selectedDate} habits={habits} />
+        <AddHabits />
+      </Context.Provider>
     </div>
   )
 }
