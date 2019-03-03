@@ -22,13 +22,11 @@ const Button = styled.button`
   ${({ type }) =>
     type === 'transparent' &&
     `
-  background: #fff;
-  border: 1px solid #ccc;
-  color: #2974ff;
+  background-color: #2974ff;
   width: 85px;
   height: 25px;
   font-size: 12px;
-  float: right;
+  border-radius: 30px;
   margin-top: 5px;`}
 
   &:active {
@@ -63,8 +61,10 @@ const Modal = styled.div`
 
   ${({ type }) =>
     type === 'full' &&
-    `border-radius: 0; top: 0;
-    max-width: 550px;
+    `border-radius: 0;
+    top: 0;
+    max-width: 520px;
+    padding: 0;
     margin: 0 auto;`}
 `
 
@@ -81,18 +81,18 @@ const ModalOverlay = styled.div`
 `
 
 const Card = styled.div`
-  width: 100%;
+  width: 99%;
   max-width: 480px;
   min-height: 90px;
   margin: 0 auto;
   background-color: #fff;
   margin-bottom: 25px;
   border-radius: 8px;
-  display: flex;
-  align-items: center;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-  justify-content: space-between;
-  padding: 10px 15px;
+  padding: 10px 12px;
+  display: grid;
+  grid-template-columns: 2.5fr 1fr;
+  align-items: center;
 
   &.readonly {
     opacity: 0.6;
@@ -103,8 +103,19 @@ const Card = styled.div`
     margin-bottom: 40px;
   }
 
+  .card__info {
+    display: grid;
+    flex-direction: column;
+    grid-template-rows: 1fr 1fr;
+    grid-gap: 10px;
+  }
+
   .card__left {
     display: flex;
+  }
+
+  .card__right {
+    justify-self: flex-end;
   }
 
   .card__checkbox {
@@ -138,14 +149,20 @@ const Card = styled.div`
     border-radius: 50%;
   }
 
+  .name {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
   card__info {
     display: flex;
     flex-direction: column;
     user-select: none;
   }
 
-  .name {
-    margin-bottom: 5px;
+  .time {
+    font-weight: 600;
   }
 
   .time,
@@ -153,10 +170,6 @@ const Card = styled.div`
     color: grey;
     font-size: 14px;
     display: inline-block;
-  }
-
-  .time {
-    margin-bottom: 5px;
   }
 
   .notes {
@@ -182,6 +195,9 @@ const H1 = styled.h1`
   position: sticky;
   top: 0;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `
 
 export { Button, Card, H1, Modal, ModalOverlay }

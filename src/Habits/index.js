@@ -76,9 +76,9 @@ const Habits = ({ selectedDate, habits }) => {
                 </label>
 
                 <div className="card__info">
-                  <h3 className="name">{habit.name}</h3>
+                  <h2 className="name">{habit.name}</h2>
                   <span className="time">{habit.time}</span>
-                  <span className="notes">{habit.notes}</span>
+                  {habit.notes ? <span className="notes">{habit.notes}</span> : null}
                 </div>
               </div>
               <div className="card__right">
