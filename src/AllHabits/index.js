@@ -91,13 +91,13 @@ const AllHabits = ({ show, onClose }) => {
                     <Card key={habit.id}>
                       <div className="card__left">
                         <div className="card__info">
-                          <h2 className="name">{habit.name}</h2>
+                          <h3 className="name">{habit.name}</h3>
                           <span className="time">{habit.time}</span>
                           {habit.notes ? <span className="notes">{habit.notes}</span> : null}
                         </div>
                       </div>
                       <div className="card__right">
-                        <span className="steak">{habit.reminders.map(reminder => `${reminder[0]}${reminder[1]}`).join(', ')}</span>
+                        <span className="streak blue">{habit.reminders.map(reminder => `${reminder[0]}${reminder[1]}`).join(', ')}</span>
                       </div>
                     </Card>
                   )

@@ -29,7 +29,7 @@ const Habits = ({ selectedDate, habits }) => {
   const today = dayjs().format(constants.FORMAT.DATE)
 
   const updateHabit = async habit => {
-    let { id, done, streak } = habit
+    let { done, id, streak } = habit
     if (done[selectedDate]) {
       if (streak > 0) streak -= 1
       else streak = 0
@@ -76,13 +76,13 @@ const Habits = ({ selectedDate, habits }) => {
                 </label>
 
                 <div className="card__info">
-                  <h2 className="name">{habit.name}</h2>
+                  <h3 className="name">{habit.name}</h3>
                   <span className="time">{habit.time}</span>
                   {habit.notes ? <span className="notes">{habit.notes}</span> : null}
                 </div>
               </div>
               <div className="card__right">
-                <span className="steak">{habit.streak} in a row</span>
+                <div className="streak">Done: {habit.streak}</div>
               </div>
             </Card>
           )

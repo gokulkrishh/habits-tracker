@@ -58,7 +58,7 @@ const Calender = () => {
   })
 
   useLayoutEffect(() => {
-    if (calenderEle) {
+    if (!calenderEle) {
       scrollIntoSelectedDate()
     }
   })

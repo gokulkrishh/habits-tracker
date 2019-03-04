@@ -94,10 +94,13 @@ const ButtonContainer = styled.div`
 `
 
 const AddHabits = () => {
+  const reminders = [...constants.DAYS.slice()]
+  reminders.shift()
+  reminders.pop()
   const initialState = {
     name: '',
     notes: '',
-    reminders: constants.DAYS.slice(),
+    reminders,
     show: false,
     time: ''
   }

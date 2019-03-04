@@ -81,7 +81,7 @@ const ModalOverlay = styled.div`
 `
 
 const Card = styled.div`
-  width: 99%;
+  width: 100%;
   max-width: 480px;
   min-height: 90px;
   margin: 0 auto;
@@ -91,7 +91,7 @@ const Card = styled.div`
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   padding: 10px 12px;
   display: grid;
-  grid-template-columns: 2.5fr 1fr;
+  grid-template-columns: 4.2fr 3.5fr;
   align-items: center;
 
   &.readonly {
@@ -116,6 +116,9 @@ const Card = styled.div`
 
   .card__right {
     justify-self: flex-end;
+    flex-direction: column;
+    display: grid;
+    grid-gap: 10px;
   }
 
   .card__checkbox {
@@ -177,7 +180,7 @@ const Card = styled.div`
     display: block;
   }
 
-  .steak {
+  .streak {
     background-color: #d8fdf0;
     padding: 0px 5px;
     color: #4dab92;
@@ -186,6 +189,13 @@ const Card = styled.div`
     line-height: 20px;
     user-select: none;
     border-radius: 4px;
+    max-width: 180px;
+    font-size: 12px;
+  }
+
+  .streak.blue {
+    background-color: #e5eeff;
+    color: #2974ff;
   }
 `
 
