@@ -11,6 +11,8 @@ const Container = styled.div`
   overflow-x: scroll;
   -webkit-overflow-scrolling: touch;
   display: flex;
+  position: sticky;
+  top: 70px;
 `
 
 const List = styled.ul`

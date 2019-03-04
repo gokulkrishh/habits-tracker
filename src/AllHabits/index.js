@@ -64,6 +64,13 @@ const AllHabits = ({ show, onClose }) => {
     setState(collection)
   }
 
+  const toggleScrollingInBody = (toggle = '') => {
+    document.body.style.overflow = toggle
+  }
+
+  if (show) toggleScrollingInBody('hidden')
+  else toggleScrollingInBody()
+
   useEffect(() => {
     getHabitsByCreatedDate()
   }, [])
