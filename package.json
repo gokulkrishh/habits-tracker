@@ -8,6 +8,7 @@
     "dexie": "^2.0.4",
     "dexie-observable": "^1.0.0-beta.5",
     "react": "^16.8.3",
+    "react-click-n-hold": "^1.0.7",
     "react-dom": "^16.8.3",
     "react-scripts": "^2.1.5",
     "styled-components": "^4.1.3"

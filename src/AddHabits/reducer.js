@@ -8,8 +8,6 @@ const reducer = (state, action) => {
       return { ...state, notes: action.payload }
     case 'reminders':
       return { ...state, reminders: action.payload }
-    case 'modal':
-      return { ...state, show: action.payload }
     case 'reset':
       return { ...state, ...action.payload }
     default:

@@ -1,11 +1,11 @@
 import Database from '../Database'
 import dayjs from 'dayjs'
-import React, { useReducer } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import styled from 'styled-components'
 
 import { Button, Modal, ModalOverlay } from '../Components/index'
 import constants from '../constants'
-import reducer from './reducer'
+import Context from '../context'
 
 const Container = styled.div``
 
@@ -93,36 +93,26 @@ const ButtonContainer = styled.div`
   }
 `
 
-const AddHabits = () => {
+const AddHabits = ({ selectedHabit, show }) => {
   const reminders = [...constants.DAYS.slice()]
   reminders.shift()
   reminders.pop()
-  const initialState = {
-    name: '',
-    notes: '',
-    reminders,
-    show: false,
-    time: ''
-  }
 
-  const [state, dispatch] = useReducer(reducer, initialState)
+  const dispatch = useContext(Context)
+
+  const initialState = { id: null, name: '', notes: '', reminders, time: '' }
+  const [state, setState] = useState(initialState)
+  const isEdit = state.id
+
+  useEffect(() => {
+    setState({ ...state, ...selectedHabit })
+  }, [selectedHabit])
 
   const onFormSubmitCallback = event => {
     event.preventDefault()
 
-    const { name, notes, time, reminders } = state
+    const { name, notes, time, reminders, id } = state
     const today = dayjs().format(constants.FORMAT.DATE)
-
-    const tConv24 = time24 => {
-      var ts = time24
-      var H = +ts.substr(0, 2)
-      var h = H % 12 || 12
-      h = h < 10 ? '0' + h : h
-      var ampm = H < 12 ? ' AM' : ' PM'
-      return h + ts.substr(2, 3) + ampm
-    }
-
-    const formattedTime = tConv24(time)
 
     const request = {
       created: today,
@@ -131,13 +121,20 @@ const AddHabits = () => {
       notes,
       reminders,
       streak: 0,
-      time: formattedTime,
+      time,
       deleted: false
     }
 
-    Database.habits.add(request)
+    if (isEdit) Database.habits.update(id, request)
+    else Database.habits.add(request)
 
-    dispatch({ type: 'reset', payload: initialState })
+    setState({ ...initialState })
+    hideEditModal()
+  }
+
+  const hideEditModal = (show = false) => {
+    dispatch({ type: constants.TOGGLE_MODAL, payload: show })
+    dispatch({ type: constants.SELECTED_HABIT, payload: {} })
   }
 
   const onChangeCallback = day => {
@@ -147,18 +144,23 @@ const AddHabits = () => {
     } else {
       state.reminders.splice(constants.DAYS.indexOf(day), 0, day)
     }
-    dispatch({ type: 'reminders', payload: state.reminders })
+    setState({ ...state, reminders: state.reminders })
   }
 
-  const toggleModalCallback = () => {
-    dispatch({ type: 'reset', payload: initialState })
-    dispatch({ type: 'modal', payload: !state.show })
+  const toggleModalCallback = show => {
+    setState({ ...initialState })
+    hideEditModal(show)
   }
 
   return (
     <Container>
       <ButtonContainer>
-        <Button type="primary" onClick={toggleModalCallback}>
+        <Button
+          type="primary"
+          onClick={() => {
+            toggleModalCallback(true)
+          }}
+        >
           <svg xmlns="http://www.w3.org/2000/svg" fill="#fff" width="24" height="24" viewBox="0 0 24 24">
             <path fill="none" d="M0 0h24v24H0V0z" />
             <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
@@ -167,7 +169,7 @@ const AddHabits = () => {
         </Button>
       </ButtonContainer>
 
-      <Modal show={state.show}>
+      <Modal show={show}>
         <form className="form" autoComplete="off" onSubmit={onFormSubmitCallback}>
           <FormGroup>
             <label>Name:</label>
@@ -176,7 +178,7 @@ const AddHabits = () => {
               placeholder="Go for jog (or) read books"
               name="name"
               onChange={event => {
-                dispatch({ type: 'name', payload: event.target.value })
+                setState({ ...state, name: event.target.value })
               }}
               value={state.name}
               required
@@ -189,7 +191,7 @@ const AddHabits = () => {
                 type="time"
                 name="time"
                 onChange={event => {
-                  dispatch({ type: 'time', payload: event.target.value })
+                  setState({ ...state, time: event.target.value })
                 }}
                 value={state.time}
                 required
@@ -202,7 +204,7 @@ const AddHabits = () => {
                 placeholder="(Optional)"
                 name="notes"
                 onChange={event => {
-                  dispatch({ type: 'notes', payload: event.target.value })
+                  setState({ ...state, notes: event.target.value })
                 }}
                 value={state.notes}
               />
@@ -228,14 +230,24 @@ const AddHabits = () => {
             </div>
           </FormGroup>
           <FormGroup direction="row">
-            <Button onClick={toggleModalCallback} type="button">
+            <Button
+              onClick={() => {
+                toggleModalCallback(false)
+              }}
+              type="button"
+            >
               Cancel
             </Button>
-            <Button type="primary">Add Habit</Button>
+            <Button type="primary">{isEdit ? 'Update' : 'Add'}</Button>
           </FormGroup>
         </form>
       </Modal>
-      <ModalOverlay show={state.show} onClick={toggleModalCallback} />
+      <ModalOverlay
+        show={show}
+        onClick={() => {
+          toggleModalCallback(false)
+        }}
+      />
     </Container>
   )
 }

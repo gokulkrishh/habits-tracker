@@ -92,7 +92,7 @@ const GlobalStyles = createGlobalStyle`
 
 const App = () => {
   const [state, dispatch] = useReducer(reducer, initialState)
-  const { selectedDate, habits, isAllHabitsVisible } = state
+  const { habits, isAllHabitsVisible, isModalVisible, selectedHabit, selectedDate } = state
 
   const selectedDay = dayjs(selectedDate).day()
 
@@ -113,7 +113,7 @@ const App = () => {
 
   useEffect(() => {
     getHabits()
-  }, [selectedDate])
+  }, [selectedDate, habits])
 
   const toggleAllHabits = () => {
     dispatch({ type: constants.SHOW_ALL_HABITS, payload: !isAllHabitsVisible })
@@ -132,7 +132,7 @@ const App = () => {
         <Calender />
         <Habits selectedDate={selectedDate} habits={habits} />
         <AllHabits show={isAllHabitsVisible} onClose={toggleAllHabits} />
-        <AddHabits />
+        <AddHabits show={isModalVisible} selectedHabit={selectedHabit} />
       </Context.Provider>
     </div>
   )
