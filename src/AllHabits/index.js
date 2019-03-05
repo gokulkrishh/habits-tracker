@@ -17,6 +17,7 @@ const Date = styled.h3`
 `
 const Habits = styled.div`
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   height: 100%;
   max-width: 520px;
   margin: 0px auto;
