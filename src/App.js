@@ -1,17 +1,15 @@
-import React, { useReducer, useEffect } from 'react'
 import { createGlobalStyle } from 'styled-components'
 import dayjs from 'dayjs'
+import { useDispatch, useMappedState } from 'redux-react-hook'
+import React, { useCallback, useEffect } from 'react'
 
-import { Button, H1 } from './Components'
+import { Button, Title } from './Components'
 import AddHabits from './AddHabits'
+import AllHabits from './AllHabits'
 import Calender from './Calender'
 import constants from './constants'
-import Context from './context'
-import Database from './Database'
+import db from './database'
 import Habits from './Habits'
-import initialState from './initialState'
-import reducer from './reducer'
-import AllHabits from './AllHabits'
 
 const GlobalStyles = createGlobalStyle`
   * {
@@ -88,52 +86,54 @@ const GlobalStyles = createGlobalStyle`
   button + button {
     margin-left: 20px;
   }
+
+  .readonly {
+    opacity: 0.6;
+    pointer-events: none;
+  }
 `
 
 const App = () => {
-  const [state, dispatch] = useReducer(reducer, initialState)
-  const { habits, isAllHabitsVisible, isModalVisible, selectedHabit, selectedDate } = state
-
+  const dispatch = useDispatch()
+  const mapState = useCallback(state => state, [])
+  const { habits, selectedDate, isAllHabitsModalVisible } = useMappedState(mapState)
   const selectedDay = dayjs(selectedDate).day()
-
-  const getHabits = async () => {
-    let collection = await Database.habits.toArray()
-    const habits = collection.filter(habit => {
-      return habit.reminders.indexOf(constants.DAYS[selectedDay]) > -1 && !dayjs(habit.created).isAfter(selectedDate)
-    })
-
-    dispatch({ type: constants.HABITS, payload: habits })
-  }
-
-  useEffect(() => {
-    Database.on('changes', () => {
-      getHabits()
-    })
-  }, [])
 
   useEffect(() => {
     getHabits()
-  }, [selectedDate, habits])
+  }, [])
 
-  const toggleAllHabits = () => {
-    dispatch({ type: constants.SHOW_ALL_HABITS, payload: !isAllHabitsVisible })
+  const getHabits = async () => {
+    const collection = await db.habits.toArray()
+    const habits = collection.filter(habit => {
+      return habit.reminders.indexOf(constants.DAYS[selectedDay]) > -1 && !dayjs(habit.created).isAfter(selectedDate)
+    })
+    dispatch({ type: constants.HABITS, payload: habits })
+  }
+
+  const onClickAllHabits = () => {
+    dispatch({ type: constants.TOGGLE_ALL_HABITS_MODAL, payload: true })
   }
 
   return (
     <div className="App">
       <GlobalStyles />
-      <Context.Provider value={dispatch}>
-        <H1>
-          My Habits{' '}
-          <Button type="transparent" onClick={toggleAllHabits}>
-            All Habits
-          </Button>
-        </H1>
-        <Calender />
-        <Habits selectedDate={selectedDate} habits={habits} />
-        <AllHabits show={isAllHabitsVisible} onClose={toggleAllHabits} />
-        <AddHabits show={isModalVisible} selectedHabit={selectedHabit} />
-      </Context.Provider>
+      <Title>
+        My Habits
+        <Button
+          appearance="primary"
+          size="small"
+          onClick={() => {
+            onClickAllHabits()
+          }}
+        >
+          All Habits
+        </Button>
+      </Title>
+      <Calender />
+      <AddHabits />
+      <Habits habits={habits} selectedDate={selectedDate} />
+      <AllHabits show={isAllHabitsModalVisible} />
     </div>
   )
 }

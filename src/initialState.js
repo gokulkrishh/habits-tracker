@@ -4,8 +4,7 @@ import constants from './constants'
 
 export default {
   habits: [],
-  isAllHabitsVisible: false,
   isModalVisible: false,
-  selectedHabit: {},
+  isAllHabitsModalVisible: false,
   selectedDate: dayjs().format(constants.FORMAT.DATE)
 }

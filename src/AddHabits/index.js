@@ -1,13 +1,32 @@
-import Database from '../Database'
+import { useMappedState, useDispatch } from 'redux-react-hook'
 import dayjs from 'dayjs'
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useCallback, useState } from 'react'
 import styled from 'styled-components'
 
-import { Button, Modal, ModalOverlay } from '../Components/index'
+import db from '../database'
+import { Button, Modal, ModalOverlay } from '../Components'
 import constants from '../constants'
-import Context from '../context'
 
-const Container = styled.div``
+const Container = styled.div`
+  .add {
+    position: fixed;
+    bottom: 15px;
+    left: 0;
+    right: 0;
+    border-radius: 28px;
+    height: 44px;
+    outline: none;
+    width: 150px;
+    margin: 0 auto;
+    font-weight: 600;
+  }
+
+  .add svg {
+    margin-right: 6px;
+    width: 22px;
+    margin-top: 1px;
+  }
+`
 
 const FormGroup = styled.div`
   display: flex;
@@ -71,105 +90,73 @@ const FormGroup = styled.div`
   }
 `
 
-const ButtonContainer = styled.div`
-  position: fixed;
-  bottom: 15px;
-  left: 0;
-  right: 0;
+const AddHabits = () => {
+  const dispatch = useDispatch()
+  const mapState = useCallback(state => state.isModalVisible, [])
+  const isModalVisible = useMappedState(mapState)
 
-  button {
-    border-radius: 28px;
-    height: 44px;
-    outline: none;
-    width: 150px;
-    margin: 0 auto;
-    font-weight: 600;
-  }
-
-  svg {
-    margin-right: 6px;
-    width: 22px;
-    margin-top: 1px;
-  }
-`
-
-const AddHabits = ({ selectedHabit, show }) => {
-  const reminders = [...constants.DAYS.slice()]
-  reminders.shift()
-  reminders.pop()
-
-  const dispatch = useContext(Context)
-
+  const reminders = constants.DAYS.slice(1, 6)
   const initialState = { id: null, name: '', notes: '', reminders, time: '' }
   const [state, setState] = useState(initialState)
-  const isEdit = state.id
 
-  useEffect(() => {
-    setState({ ...state, ...selectedHabit })
-  }, [selectedHabit])
+  const hideModal = () => {
+    dispatch({ type: constants.TOGGLE_MODAL, payload: false })
+  }
 
-  const onFormSubmitCallback = event => {
+  const onFormSubmitCallback = async event => {
     event.preventDefault()
-
-    const { name, notes, time, reminders, id } = state
+    const { name, notes, time, reminders } = state
     const today = dayjs().format(constants.FORMAT.DATE)
+
+    if (!reminders.length) {
+      return false
+    }
 
     const request = {
       created: today,
       done: {},
+      isDeleted: false,
       name,
       notes,
       reminders,
       streak: 0,
-      time,
-      deleted: false
+      time
     }
 
-    if (isEdit) Database.habits.update(id, request)
-    else Database.habits.add(request)
-
+    db.habits.add(request)
     setState({ ...initialState })
-    hideEditModal()
+    hideModal()
   }
 
-  const hideEditModal = (show = false) => {
-    dispatch({ type: constants.TOGGLE_MODAL, payload: show })
-    dispatch({ type: constants.SELECTED_HABIT, payload: {} })
-  }
-
-  const onChangeCallback = day => {
+  const onReminderChange = day => {
     const selected = state.reminders.indexOf(day)
-    if (selected > -1) {
-      state.reminders.splice(selected, 1)
-    } else {
-      state.reminders.splice(constants.DAYS.indexOf(day), 0, day)
-    }
+    if (selected > -1) state.reminders.splice(selected, 1)
+    else state.reminders.splice(constants.DAYS.indexOf(day), 0, day)
     setState({ ...state, reminders: state.reminders })
   }
 
-  const toggleModalCallback = show => {
-    setState({ ...initialState })
-    hideEditModal(show)
+  const renderAddBtn = () => {
+    return (
+      <Button
+        className="add"
+        appearance="primary"
+        onClick={() => {
+          dispatch({ type: constants.TOGGLE_MODAL, payload: true })
+        }}
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" fill="#fff" width="24" height="24" viewBox="0 0 24 24">
+          <path fill="none" d="M0 0h24v24H0V0z" />
+          <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+        </svg>
+        Add Habits
+      </Button>
+    )
   }
 
   return (
     <Container>
-      <ButtonContainer>
-        <Button
-          type="primary"
-          onClick={() => {
-            toggleModalCallback(true)
-          }}
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" fill="#fff" width="24" height="24" viewBox="0 0 24 24">
-            <path fill="none" d="M0 0h24v24H0V0z" />
-            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
-          </svg>
-          Add Habits
-        </Button>
-      </ButtonContainer>
-
-      <Modal show={show}>
+      {renderAddBtn()}
+      <Modal show={isModalVisible}>
         <form className="form" autoComplete="off" onSubmit={onFormSubmitCallback}>
           <FormGroup>
             <label>Name:</label>
@@ -220,7 +207,7 @@ const AddHabits = ({ selectedHabit, show }) => {
                     className={state.reminders.indexOf(day) > -1 ? 'active' : ''}
                     key={day}
                     onClick={() => {
-                      onChangeCallback(day)
+                      onReminderChange(day)
                     }}
                   >
                     {day.charAt(0)}
@@ -230,24 +217,14 @@ const AddHabits = ({ selectedHabit, show }) => {
             </div>
           </FormGroup>
           <FormGroup direction="row">
-            <Button
-              onClick={() => {
-                toggleModalCallback(false)
-              }}
-              type="button"
-            >
+            <Button onClick={hideModal} type="button">
               Cancel
             </Button>
-            <Button type="primary">{isEdit ? 'Update' : 'Add'}</Button>
+            <Button appearance="primary">Add</Button>
           </FormGroup>
         </form>
       </Modal>
-      <ModalOverlay
-        show={show}
-        onClick={() => {
-          toggleModalCallback(false)
-        }}
-      />
+      <ModalOverlay show={isModalVisible} onClick={hideModal} />
     </Container>
   )
 }

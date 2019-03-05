@@ -1,11 +1,12 @@
+import { useDispatch } from 'redux-react-hook'
+import clsx from 'clsx'
 import dayjs from 'dayjs'
-import React, { useEffect, useLayoutEffect, useState, useRef, useContext } from 'react'
+import React, { useEffect, useCallback, useState, useRef } from 'react'
 import styled from 'styled-components'
 
 import constants from '../constants'
-import Context from '../context'
 
-const Container = styled.div`
+const ListContainer = styled.div`
   height: 82px;
   background-color: #e6e6e6;
   overflow-x: scroll;
@@ -13,6 +14,7 @@ const Container = styled.div`
   display: flex;
   position: sticky;
   top: 70px;
+  z-index: 1;
 `
 
 const List = styled.ul`
@@ -41,6 +43,7 @@ const ListItem = styled.li`
   }
 
   &.active {
+    font-weight: bold;
     border: 2px solid #2974ff;
     background-color: #fff;
     color: #2974ff;
@@ -53,39 +56,28 @@ const ListItem = styled.li`
 
 const Calender = () => {
   let calenderEle = useRef(null)
-  const dispatch = useContext(Context)
 
-  const [state, setState] = useState({
-    active: dayjs().date()
-  })
+  const dispatch = useDispatch()
 
-  useLayoutEffect(() => {
-    if (!calenderEle) {
-      scrollIntoSelectedDate()
-    }
-  })
+  const [state, setState] = useState({ active: dayjs().date() })
 
   useEffect(() => {
-    if (calenderEle) {
-      scrollIntoSelectedDate()
-    }
-
-    return () => {
-      calenderEle = null
-    }
+    if (calenderEle) scrollIntoSelectedDate()
+    return () => (calenderEle = null)
   }, [])
 
-  const scrollIntoSelectedDate = () => {
+  const scrollIntoSelectedDate = useCallback(() => {
     const element = Array.from(calenderEle.children).filter(ele => ele.classList.contains('active'))
     if (element.length) {
       element[0].scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' })
     }
-  }
+  }, [calenderEle.children])
 
-  const totalDaysInThisMonth = () => {
+  const getNumberDaysInMonth = () => {
     const dateObj = new Date()
-    const days = new Date(dateObj.getFullYear(), dateObj.getMonth() + 1, 0).getDate()
-    return Array.from(Array(days).keys())
+    const year = dateObj.getFullYear()
+    const month = dateObj.getMonth()
+    return new Date(year, month + 1, 0).getDate()
   }
 
   const formattedDateStr = day => {
@@ -94,14 +86,15 @@ const Calender = () => {
   }
 
   const renderListItems = () => {
-    return totalDaysInThisMonth().map(day => {
+    const days = getNumberDaysInMonth()
+    return Array.from(Array(days).keys()).map(day => {
       const formattedDate = formattedDateStr(day)
       const date = dayjs(formattedDate)
       const activeDate = dayjs(formattedDate).date()
       return (
         <ListItem
           key={day}
-          className={state.active === activeDate ? 'active' : ''}
+          className={clsx({ active: state.active === activeDate })}
           onClick={() => {
             setState({ active: activeDate })
             dispatch({ type: constants.SELECTED_DATE, payload: date.format(constants.FORMAT.DATE) })
@@ -115,9 +108,9 @@ const Calender = () => {
   }
 
   return (
-    <Container>
+    <ListContainer>
       <List ref={ref => (calenderEle = ref)}>{renderListItems()}</List>
-    </Container>
+    </ListContainer>
   )
 }
 

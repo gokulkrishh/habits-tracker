@@ -1,10 +1,12 @@
+import { useDispatch } from 'redux-react-hook'
 import dayjs from 'dayjs'
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 
-import { H1, Card, Modal, ModalOverlay } from '../Components/index'
+import { convertTo12Hrs } from '../utils'
+import { Title, Card, Modal, ModalOverlay } from '../Components/index'
+import db from '../database'
 import constants from '../constants'
-import Database from '../Database'
 
 const Date = styled.h3`
   margin-bottom: 15px;
@@ -48,11 +50,12 @@ const Button = styled.div`
   }
 `
 
-const AllHabits = ({ show, onClose }) => {
+const AllHabits = ({ show }) => {
+  const dispatch = useDispatch()
   const [groupedByHabits, setState] = useState([])
 
   const getHabitsByCreatedDate = async () => {
-    let collection = await Database.habits.orderBy('created').toArray()
+    let collection = await db.habits.orderBy('created').toArray()
     collection = collection.reduce((acc, habit) => {
       if (!acc[habit.created]) {
         acc[habit.created] = [habit]
@@ -64,29 +67,34 @@ const AllHabits = ({ show, onClose }) => {
     setState(collection)
   }
 
-  const toggleScrollingInBody = (toggle = '') => {
+  const toggleScrollInBody = (toggle = '') => {
     document.body.style.overflow = toggle
   }
 
-  if (show) toggleScrollingInBody('hidden')
-  else toggleScrollingInBody()
+  if (show) toggleScrollInBody('hidden')
+  else toggleScrollInBody('')
 
   useEffect(() => {
+    toggleScrollInBody()
     getHabitsByCreatedDate()
   }, [])
+
+  const hideAllHabitsModal = () => {
+    dispatch({ type: constants.TOGGLE_ALL_HABITS_MODAL, payload: false })
+  }
 
   return (
     <div className="AllHabits">
       <Modal show={show} type="full">
-        <H1>
+        <Title>
           All Habits{' '}
-          <Button onClick={onClose}>
+          <Button onClick={hideAllHabitsModal}>
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
               <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
               <path d="M0 0h24v24H0z" fill="none" />
             </svg>
           </Button>
-        </H1>
+        </Title>
         <Habits>
           {Object.keys(groupedByHabits).map(key => {
             const habits = groupedByHabits[key]
@@ -99,7 +107,7 @@ const AllHabits = ({ show, onClose }) => {
                       <div className="card__left">
                         <div className="card__info">
                           <h3 className="name">{habit.name}</h3>
-                          <span className="time">{habit.time}</span>
+                          <span className="time">{convertTo12Hrs(habit.time)}</span>
                           {habit.notes ? <span className="notes">{habit.notes}</span> : null}
                         </div>
                       </div>
@@ -114,7 +122,7 @@ const AllHabits = ({ show, onClose }) => {
           })}
         </Habits>
       </Modal>
-      <ModalOverlay show={show} onClick={onClose} />
+      <ModalOverlay show={show} onClick={hideAllHabitsModal} />
     </div>
   )
 }

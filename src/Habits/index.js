@@ -1,21 +1,21 @@
 import ClickNHold from 'react-click-n-hold'
-import Database from '../Database'
 import dayjs from 'dayjs'
-import React, { useContext } from 'react'
+import db from '../database'
+import React from 'react'
 import styled from 'styled-components'
 
 import { Card } from '../Components/index'
 import constants from '../constants'
-import Context from '../context'
+import { convertTo12Hrs } from '../utils'
 
-const Container = styled.div`
+const CardContainer = styled.div`
   padding: 15px;
   overflow: auto;
   margin-top: 15px;
   margin-bottom: 50px;
 `
 
-const NoHabits = styled.h2`
+const Empty = styled.h2`
   height: 250px;
   display: flex;
   align-items: center;
@@ -27,9 +27,8 @@ const NoHabits = styled.h2`
   }
 `
 
-const Habits = ({ selectedDate, habits }) => {
+const Habits = ({ habits, selectedDate }) => {
   const today = dayjs().format(constants.FORMAT.DATE)
-  const dispatch = useContext(Context)
 
   const updateHabit = async habit => {
     let { done, id, streak } = habit
@@ -41,40 +40,21 @@ const Habits = ({ selectedDate, habits }) => {
       done[selectedDate] = true
       streak += 1
     }
-    await Database.table('habits').update(id, { done, streak })
+    await db.table('habits').update(id, { done, streak })
   }
 
-  const onClickNHold = habit => {
-    dispatch({
-      type: constants.SELECTED_HABIT,
-      payload: habit
-    })
-
-    dispatch({
-      type: constants.TOGGLE_MODAL,
-      payload: true
-    })
-  }
+  const onClickNHold = habit => {}
 
   const renderHabits = () => {
     if (!habits.length) {
       return (
-        <NoHabits>
+        <Empty>
           No Habits
           <span aria-label="emoji" role="img">
             🤓
           </span>
-        </NoHabits>
+        </Empty>
       )
-    }
-
-    const tConv24 = time24 => {
-      var ts = time24
-      var H = +ts.substr(0, 2)
-      var h = H % 12 || 12
-      h = h < 10 ? '0' + h : h
-      var ampm = H < 12 ? ' AM' : ' PM'
-      return h + ts.substr(2, 3) + ampm
     }
 
     return (
@@ -82,13 +62,14 @@ const Habits = ({ selectedDate, habits }) => {
         {habits.map(habit => {
           return (
             <ClickNHold
+              className={!dayjs(selectedDate).isSame(today) ? 'readonly' : ''}
               key={habit.id}
               time={1}
               onClickNHold={() => {
                 onClickNHold(habit)
               }}
             >
-              <Card className={!dayjs(selectedDate).isSame(today) ? 'readonly' : ''}>
+              <Card>
                 <div className="card__left">
                   <label
                     className="card__checkbox"
@@ -108,7 +89,7 @@ const Habits = ({ selectedDate, habits }) => {
 
                   <div className="card__info">
                     <h3 className="name">{habit.name}</h3>
-                    <span className="time">{tConv24(habit.time)}</span>
+                    <span className="time">{convertTo12Hrs(habit.time)}</span>
                     {habit.notes ? <span className="notes">{habit.notes}</span> : null}
                   </div>
                 </div>
@@ -123,7 +104,7 @@ const Habits = ({ selectedDate, habits }) => {
     )
   }
 
-  return <Container>{renderHabits()}</Container>
+  return <CardContainer>{renderHabits()}</CardContainer>
 }
 
 export default Habits

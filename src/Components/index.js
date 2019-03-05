@@ -17,12 +17,11 @@ const Button = styled.button`
   text-transform: uppercase;
   width: 100%;
 
-  ${({ type }) => type === 'primary' && `background-color: #2974ff;`}
+  ${({ appearance }) => appearance === 'primary' && `background-color: #2974ff;`}
 
-  ${({ type }) =>
-    type === 'transparent' &&
+  ${({ size }) =>
+    size === 'small' &&
     `
-  background-color: #2974ff;
   width: 85px;
   height: 25px;
   font-size: 12px;
@@ -55,7 +54,7 @@ const Modal = styled.div`
   margin: auto;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.17);
   will-change: transform;
-  z-index: 1;
+  z-index: 2;
 
   ${({ show }) => show && `transform: translateY(0);`}
 
@@ -76,6 +75,7 @@ const ModalOverlay = styled.div`
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.2);
   display: none;
+  z-index: 1;
 
   ${({ show }) => show && `display: block;`}
 `
@@ -93,15 +93,7 @@ const Card = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-  &.readonly {
-    opacity: 0.6;
-    pointer-events: none;
-  }
-
-  &:last-child {
-    margin-bottom: 40px;
-  }
+  user-select: none;
 
   .card__info {
     display: grid;
@@ -199,7 +191,7 @@ const Card = styled.div`
   }
 `
 
-const H1 = styled.h1`
+const Title = styled.h1`
   background-color: #f7f7f7;
   padding: 15px 20px 20px;
   position: sticky;
@@ -208,6 +200,7 @@ const H1 = styled.h1`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  z-index: 1;
 `
 
-export { Button, Card, H1, Modal, ModalOverlay }
+export { Button, Card, Modal, ModalOverlay, Title }
