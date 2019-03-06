@@ -19,6 +19,7 @@ const Container = styled.div`
     width: 150px;
     margin: 0 auto;
     font-weight: 600;
+    z-index: 1;
   }
 
   .add svg {
