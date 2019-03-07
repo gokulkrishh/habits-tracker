@@ -200,33 +200,17 @@ const Card = styled.div`
   }
 `
 
-const Header = styled.div`
-  background-color: #f7f7f7;
-  padding: 10px 20px 10px;
-  position: sticky;
-  top: 0;
-  cursor: pointer;
-  z-index: 1;
-  display: flex;
-  justify-content: space-between;
-
-  button {
-    align-self: center;
-  }
-`
-
 const Title = styled.h1`
   background-color: #f7f7f7;
   position: sticky;
   top: 0;
   cursor: pointer;
-
-  &.modal-title {
-    padding: 15px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  height: 70px;
+  z-index: 1;
 `
 
 const SubTitle = styled.h4`
@@ -234,4 +218,4 @@ const SubTitle = styled.h4`
   z-index: 1;
 `
 
-export { Button, Card, Header, Modal, ModalOverlay, SubTitle, Title }
+export { Button, Card, Modal, ModalOverlay, SubTitle, Title }

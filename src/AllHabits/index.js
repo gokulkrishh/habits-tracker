@@ -53,6 +53,8 @@ const Button = styled.div`
 `
 
 const AllHabits = ({ show }) => {
+  if (!show) return null
+
   const dispatch = useDispatch()
   const [groupedByHabits, setState] = useState([])
 
@@ -104,7 +106,6 @@ const AllHabits = ({ show }) => {
               <div className="card__container" key={key}>
                 <Date>{dayjs(key).format(constants.FORMAT.MONTH)}</Date>
                 {habits.map(habit => {
-                  console.log('habit --->', habit)
                   const reminders = habit.reminders.map(reminder => `${reminder[0]}${reminder[1]}`)
                   return (
                     <Card key={habit.id}>

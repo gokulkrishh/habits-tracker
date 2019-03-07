@@ -149,7 +149,7 @@ const AddHabits = ({ onUpdate, selectedHabit }) => {
     setState({ ...state, reminders: state.reminders })
   }
 
-  const renderAddBtn = () => {
+  const addBtnHTML = () => {
     return (
       <Button
         className="add"
@@ -169,76 +169,78 @@ const AddHabits = ({ onUpdate, selectedHabit }) => {
 
   return (
     <Container>
-      {renderAddBtn()}
-      <Modal show={isModalVisible}>
-        <form className="form" autoComplete="off" onSubmit={onFormSubmitCallback}>
-          <FormGroup>
-            <label>Name:</label>
-            <input
-              type="text"
-              placeholder="Go for jog (or) read books"
-              name="name"
-              onChange={event => {
-                setState({ ...state, name: event.target.value })
-              }}
-              value={state.name}
-              required
-            />
-          </FormGroup>
-          <FormGroup direction="row">
-            <div>
-              <label>Time:</label>
-              <input
-                type="time"
-                name="time"
-                onChange={event => {
-                  setState({ ...state, time: event.target.value })
-                }}
-                value={state.time}
-                required
-              />
-            </div>
-            <div>
-              <label>Note:</label>
+      {addBtnHTML()}
+      {isModalVisible ? (
+        <Modal show={isModalVisible}>
+          <form className="form" autoComplete="off" onSubmit={onFormSubmitCallback}>
+            <FormGroup>
+              <label>Name:</label>
               <input
                 type="text"
-                placeholder="(Optional)"
-                name="notes"
+                placeholder="Go for jog (or) read books"
+                name="name"
                 onChange={event => {
-                  setState({ ...state, notes: event.target.value })
+                  setState({ ...state, name: event.target.value })
                 }}
-                value={state.notes}
+                value={state.name}
+                required
               />
-            </div>
-          </FormGroup>
+            </FormGroup>
+            <FormGroup direction="row">
+              <div>
+                <label>Time:</label>
+                <input
+                  type="time"
+                  name="time"
+                  onChange={event => {
+                    setState({ ...state, time: event.target.value })
+                  }}
+                  value={state.time}
+                  required
+                />
+              </div>
+              <div>
+                <label>Note:</label>
+                <input
+                  type="text"
+                  placeholder="(Optional)"
+                  name="notes"
+                  onChange={event => {
+                    setState({ ...state, notes: event.target.value })
+                  }}
+                  value={state.notes}
+                />
+              </div>
+            </FormGroup>
 
-          <FormGroup>
-            <label>When:</label>
-            <div className="form__days">
-              {constants.DAYS.map(day => {
-                return (
-                  <span
-                    className={state.reminders.indexOf(day) > -1 ? 'active' : ''}
-                    key={day}
-                    onClick={() => {
-                      onReminderChange(day)
-                    }}
-                  >
-                    {day.charAt(0)}
-                  </span>
-                )
-              })}
-            </div>
-          </FormGroup>
-          <FormGroup direction="row">
-            <Button onClick={hideModal} type="button">
-              Cancel
-            </Button>
-            <Button appearance="primary">{state.id ? 'Update' : 'Add'}</Button>
-          </FormGroup>
-        </form>
-      </Modal>
-      <ModalOverlay show={isModalVisible} onClick={hideModal} />
+            <FormGroup>
+              <label>When:</label>
+              <div className="form__days">
+                {constants.DAYS.map(day => {
+                  return (
+                    <span
+                      className={state.reminders.indexOf(day) > -1 ? 'active' : ''}
+                      key={day}
+                      onClick={() => {
+                        onReminderChange(day)
+                      }}
+                    >
+                      {day.charAt(0)}
+                    </span>
+                  )
+                })}
+              </div>
+            </FormGroup>
+            <FormGroup direction="row">
+              <Button onClick={hideModal} type="button">
+                Cancel
+              </Button>
+              <Button appearance="primary">{state.id ? 'Update' : 'Add'}</Button>
+            </FormGroup>
+          </form>
+        </Modal>
+      ) : null}
+      {isModalVisible ? <ModalOverlay show={isModalVisible} onClick={hideModal} /> : null}
     </Container>
   )
 }

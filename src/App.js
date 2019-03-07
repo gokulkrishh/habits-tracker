@@ -2,14 +2,13 @@ import { createGlobalStyle } from 'styled-components'
 import { useDispatch, useMappedState } from 'redux-react-hook'
 import React, { useCallback, useEffect } from 'react'
 
-import { Button, Header, SubTitle, Title } from './Components'
+import { Button, Title } from './Components'
 import AddHabits from './AddHabits'
 import AllHabits from './AllHabits'
 import Calender from './Calender'
 import constants from './constants'
 import db from './database'
 import Habits from './Habits'
-import dayjs from 'dayjs'
 
 const GlobalStyles = createGlobalStyle`
   * {
@@ -123,11 +122,8 @@ const App = () => {
   return (
     <div className="App">
       <GlobalStyles />
-      <Header>
-        <div>
-          <SubTitle>{dayjs().format(constants.FORMAT.DATE_WITH_MONTH)}</SubTitle>
-          <Title>My Habits</Title>
-        </div>
+      <Title>
+        My Habits{' '}
         <Button
           appearance="primary"
           size="small"
@@ -137,7 +133,7 @@ const App = () => {
         >
           All Habits
         </Button>
-      </Header>
+      </Title>
       <Calender />
       <AddHabits onUpdate={getAndSaveHabitsToStore} selectedHabit={selectedHabit} />
       <Habits allHabits={habits} selectedDate={selectedDate} onUpdate={getAndSaveHabitsToStore} />
