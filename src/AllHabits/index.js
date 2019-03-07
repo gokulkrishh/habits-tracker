@@ -53,10 +53,10 @@ const Button = styled.div`
 `
 
 const AllHabits = ({ show }) => {
-  if (!show) return null
-
   const dispatch = useDispatch()
   const [groupedByHabits, setState] = useState([])
+
+  if (!show) return null
 
   const getHabitsByCreatedDate = async () => {
     let collection = await db.habits.orderBy('created').toArray()

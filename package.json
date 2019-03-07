@@ -22,7 +22,7 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
-    "eslint-plugin-react-hooks": "^1.4.0"
+    "eslint-plugin-react-hooks": "1.5.0-beta.1"
   },
   "browserslist": [
     ">0.2%",
