@@ -120,7 +120,7 @@ const AddHabits = ({ onUpdate, selectedHabit }) => {
     const request = {
       created: today,
       done: {},
-      isDeleted: !reminders.length,
+      isDeleted: false,
       name,
       notes,
       reminders,
@@ -134,7 +134,8 @@ const AddHabits = ({ onUpdate, selectedHabit }) => {
         name,
         notes,
         reminders,
-        time
+        time,
+        isDeleted: !reminders.length
       })
     }
     hideModal()

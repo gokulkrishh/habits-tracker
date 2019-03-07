@@ -2,6 +2,7 @@ export default {
   DAYS: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
   FORMAT: {
     DATE: 'DD-MMM-YYYY',
+    MONTH: 'MMMM YYYY',
     DATE_WITH_MONTH: 'DD MMMM YYYY'
   },
   HABITS: 'HABITS',

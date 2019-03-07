@@ -193,6 +193,11 @@ const Card = styled.div`
     background-color: #e5eeff;
     color: #2974ff;
   }
+
+  .streak.red {
+    background-color: #ffe5e5;
+    color: #ab4d4d;
+  }
 `
 
 const Header = styled.div`

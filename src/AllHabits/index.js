@@ -104,6 +104,8 @@ const AllHabits = ({ show }) => {
               <div className="card__container" key={key}>
                 <Date>{dayjs(key).format(constants.FORMAT.MONTH)}</Date>
                 {habits.map(habit => {
+                  console.log('habit --->', habit)
+                  const reminders = habit.reminders.map(reminder => `${reminder[0]}${reminder[1]}`)
                   return (
                     <Card key={habit.id}>
                       <div className="card__left">
@@ -114,7 +116,8 @@ const AllHabits = ({ show }) => {
                         </div>
                       </div>
                       <div className="card__right">
-                        <span className="streak blue">{habit.reminders.map(reminder => `${reminder[0]}${reminder[1]}`).join(', ')}</span>
+                        {reminders.length ? <span className="streak blue">{reminders.join(', ')}</span> : null}
+                        {habit.isDeleted ? <span className="streak red">Deleted</span> : null}
                       </div>
                     </Card>
                   )
