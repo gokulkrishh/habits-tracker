@@ -1,7 +1,7 @@
 import { useDispatch } from 'redux-react-hook'
 import clsx from 'clsx'
 import dayjs from 'dayjs'
-import React, { useEffect, useCallback, useState, useRef } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import styled from 'styled-components'
 
 import constants from '../constants'
@@ -56,22 +56,20 @@ const ListItem = styled.li`
 
 const Calender = () => {
   let calenderEle = useRef(null)
-
   const dispatch = useDispatch()
-
   const [state, setState] = useState({ active: dayjs().date() })
 
   useEffect(() => {
     if (calenderEle) scrollIntoSelectedDate()
     return () => (calenderEle = null)
-  }, [])
+  }, [state.active])
 
-  const scrollIntoSelectedDate = useCallback(() => {
+  const scrollIntoSelectedDate = () => {
     const element = Array.from(calenderEle.children).filter(ele => ele.classList.contains('active'))
     if (element.length) {
       element[0].scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' })
     }
-  }, [calenderEle.children])
+  }
 
   const getNumberDaysInMonth = () => {
     const dateObj = new Date()

@@ -91,7 +91,7 @@ const FormGroup = styled.div`
   }
 `
 
-const AddHabits = () => {
+const AddHabits = ({ onUpdate, selectedHabit }) => {
   const dispatch = useDispatch()
   const mapState = useCallback(state => state.isModalVisible, [])
   const isModalVisible = useMappedState(mapState)
@@ -127,6 +127,7 @@ const AddHabits = () => {
     db.habits.add(request)
     setState({ ...initialState })
     hideModal()
+    onUpdate()
   }
 
   const onReminderChange = day => {

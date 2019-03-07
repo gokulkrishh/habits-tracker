@@ -1,3 +1,4 @@
+import { useDispatch } from 'redux-react-hook'
 import ClickNHold from 'react-click-n-hold'
 import dayjs from 'dayjs'
 import db from '../database'
@@ -5,8 +6,8 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { Card } from '../Components/index'
-import constants from '../constants'
 import { convertTo12Hrs } from '../utils'
+import constants from '../constants'
 
 const CardContainer = styled.div`
   padding: 15px;
@@ -27,10 +28,22 @@ const Empty = styled.h2`
   }
 `
 
-const Habits = ({ habits, selectedDate }) => {
+const Habits = ({ allHabits, selectedDate, onUpdate }) => {
+  const selectedDay = dayjs(selectedDate).day()
+  const dispatch = useDispatch()
+
+  const getTodaysHabits = () => {
+    const habits = allHabits.filter(habit => {
+      return habit.reminders.indexOf(constants.DAYS[selectedDay]) > -1 && !dayjs(habit.created).isAfter(selectedDate)
+    })
+
+    return habits
+  }
+
+  const habits = getTodaysHabits()
   const today = dayjs().format(constants.FORMAT.DATE)
 
-  const updateHabit = async habit => {
+  const updateHabit = async (habit, index) => {
     let { done, id, streak } = habit
     if (done[selectedDate]) {
       if (streak > 0) streak -= 1
@@ -40,10 +53,15 @@ const Habits = ({ habits, selectedDate }) => {
       done[selectedDate] = true
       streak += 1
     }
+
     await db.table('habits').update(id, { done, streak })
+    allHabits.splice(index, { ...habit, done, streak })
+    onUpdate(allHabits)
   }
 
-  const onClickNHold = habit => {}
+  const onClickNHold = habit => {
+    dispatch({ type: constants.SELECTED_HABIT, payload: habit })
+  }
 
   const renderHabits = () => {
     if (!habits.length) {
@@ -59,7 +77,7 @@ const Habits = ({ habits, selectedDate }) => {
 
     return (
       <div>
-        {habits.map(habit => {
+        {habits.map((habit, index) => {
           return (
             <ClickNHold
               className={!dayjs(selectedDate).isSame(today) ? 'readonly' : ''}
@@ -74,7 +92,7 @@ const Habits = ({ habits, selectedDate }) => {
                   <label
                     className="card__checkbox"
                     onClick={() => {
-                      updateHabit(habit)
+                      updateHabit(habit, index)
                     }}
                   >
                     <span className={habit.done[selectedDate] ? 'checked' : ''}>

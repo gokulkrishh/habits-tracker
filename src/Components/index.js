@@ -191,16 +191,31 @@ const Card = styled.div`
   }
 `
 
-const Title = styled.h1`
+const Header = styled.div`
   background-color: #f7f7f7;
-  padding: 15px 20px 20px;
+  padding: 10px 20px 10px;
   position: sticky;
   top: 0;
   cursor: pointer;
+  z-index: 1;
   display: flex;
-  align-items: center;
   justify-content: space-between;
+
+  button {
+    align-self: center;
+  }
+`
+
+const Title = styled.h1`
+  background-color: #f7f7f7;
+  position: sticky;
+  top: 0;
+  cursor: pointer;
+`
+
+const SubTitle = styled.h4`
+  padding-bottom: 5px;
   z-index: 1;
 `
 
-export { Button, Card, Modal, ModalOverlay, Title }
+export { Button, Card, Header, Modal, ModalOverlay, SubTitle, Title }

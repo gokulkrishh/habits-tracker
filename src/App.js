@@ -1,15 +1,15 @@
 import { createGlobalStyle } from 'styled-components'
-import dayjs from 'dayjs'
 import { useDispatch, useMappedState } from 'redux-react-hook'
 import React, { useCallback, useEffect } from 'react'
 
-import { Button, Title } from './Components'
+import { Button, Header, SubTitle, Title } from './Components'
 import AddHabits from './AddHabits'
 import AllHabits from './AllHabits'
 import Calender from './Calender'
 import constants from './constants'
 import db from './database'
 import Habits from './Habits'
+import dayjs from 'dayjs'
 
 const GlobalStyles = createGlobalStyle`
   * {
@@ -95,19 +95,23 @@ const GlobalStyles = createGlobalStyle`
 
 const App = () => {
   const dispatch = useDispatch()
-  const mapState = useCallback(state => state, [])
+  const mapState = useCallback(
+    state => ({
+      habits: state.habits,
+      selectedDate: state.selectedDate,
+      isAllHabitsModalVisible: state.isAllHabitsModalVisible
+    }),
+    []
+  )
+
   const { habits, selectedDate, isAllHabitsModalVisible } = useMappedState(mapState)
-  const selectedDay = dayjs(selectedDate).day()
 
   useEffect(() => {
-    getHabits()
+    getAndSaveHabitsToStore()
   }, [])
 
-  const getHabits = async () => {
-    const collection = await db.habits.toArray()
-    const habits = collection.filter(habit => {
-      return habit.reminders.indexOf(constants.DAYS[selectedDay]) > -1 && !dayjs(habit.created).isAfter(selectedDate)
-    })
+  const getAndSaveHabitsToStore = async () => {
+    const habits = await db.habits.toArray()
     dispatch({ type: constants.HABITS, payload: habits })
   }
 
@@ -118,8 +122,11 @@ const App = () => {
   return (
     <div className="App">
       <GlobalStyles />
-      <Title>
-        My Habits
+      <Header>
+        <div>
+          <SubTitle>{dayjs().format(constants.FORMAT.DATE_WITH_MONTH)}</SubTitle>
+          <Title>My Habits</Title>
+        </div>
         <Button
           appearance="primary"
           size="small"
@@ -129,10 +136,10 @@ const App = () => {
         >
           All Habits
         </Button>
-      </Title>
+      </Header>
       <Calender />
-      <AddHabits />
-      <Habits habits={habits} selectedDate={selectedDate} />
+      <AddHabits onUpdate={getAndSaveHabitsToStore} />
+      <Habits allHabits={habits} selectedDate={selectedDate} onUpdate={getAndSaveHabitsToStore} />
       <AllHabits show={isAllHabitsModalVisible} />
     </div>
   )
