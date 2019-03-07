@@ -64,10 +64,11 @@ const AllHabits = ({ show }) => {
   const getHabitsByCreatedDate = async () => {
     let collection = await db.habits.orderBy('created').toArray()
     collection = collection.reduce((acc, habit) => {
-      if (!acc[habit.created]) {
+      const orderByMonth = dayjs(acc[habit.created]).format(constants.FORMAT.MONTH)
+      if (!acc[orderByMonth]) {
         acc[habit.created] = [habit]
       } else {
-        acc[habit.created].push(habit)
+        acc[orderByMonth].push(habit)
       }
       return acc
     }, {})

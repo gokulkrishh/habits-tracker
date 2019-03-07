@@ -59,6 +59,7 @@ const Modal = styled.div`
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.17);
   will-change: transform;
   z-index: 2;
+  user-select: none;
 
   ${({ show }) => show && `transform: translateY(0);`}
 
