@@ -1,6 +1,7 @@
 import { useMappedState, useDispatch } from 'redux-react-hook'
 import dayjs from 'dayjs'
 import React, { useCallback, useEffect, useState } from 'react'
+import ReactDOM from 'react-dom'
 import styled from 'styled-components'
 
 import db from '../database'
@@ -167,10 +168,9 @@ const AddHabits = ({ onUpdate, selectedHabit }) => {
     )
   }
 
-  return (
-    <Container>
-      {addBtnHTML()}
-      {isModalVisible ? (
+  const renderModalHTMl = () => {
+    return ReactDOM.createPortal(
+      <div className="AddHabit">
         <Modal show={isModalVisible}>
           <form className="form" autoComplete="off" onSubmit={onFormSubmitCallback}>
             <FormGroup>
@@ -239,8 +239,16 @@ const AddHabits = ({ onUpdate, selectedHabit }) => {
             </FormGroup>
           </form>
         </Modal>
-      ) : null}
-      {isModalVisible ? <ModalOverlay show={isModalVisible} onClick={hideModal} /> : null}
+        <ModalOverlay show={isModalVisible} onClick={hideModal} />
+      </div>,
+      document.getElementById('custom-root')
+    )
+  }
+
+  return (
+    <Container>
+      {addBtnHTML()}
+      {renderModalHTMl()}
     </Container>
   )
 }

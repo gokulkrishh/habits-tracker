@@ -1,6 +1,7 @@
 import { useDispatch } from 'redux-react-hook'
 import dayjs from 'dayjs'
 import React, { useState, useEffect } from 'react'
+import ReactDOM from 'react-dom'
 import styled from 'styled-components'
 
 import { convertTo12Hrs } from '../utils'
@@ -24,6 +25,10 @@ const Habits = styled.div`
   padding: 0 20px;
 
   .card__container {
+    h3 {
+      user-select: none;
+    }
+
     &:last-child {
       margin-bottom: 100px;
     }
@@ -56,8 +61,6 @@ const AllHabits = ({ show }) => {
   const dispatch = useDispatch()
   const [groupedByHabits, setState] = useState([])
 
-  if (!show) return null
-
   const getHabitsByCreatedDate = async () => {
     let collection = await db.habits.orderBy('created').toArray()
     collection = collection.reduce((acc, habit) => {
@@ -87,7 +90,7 @@ const AllHabits = ({ show }) => {
     dispatch({ type: constants.TOGGLE_ALL_HABITS_MODAL, payload: false })
   }
 
-  return (
+  return ReactDOM.createPortal(
     <div className="AllHabits">
       <Modal show={show} type="full">
         <Title className="modal-title">
@@ -129,7 +132,8 @@ const AllHabits = ({ show }) => {
         </Habits>
       </Modal>
       <ModalOverlay show={show} onClick={hideAllHabitsModal} />
-    </div>
+    </div>,
+    document.getElementById('custom-root')
   )
 }
 
