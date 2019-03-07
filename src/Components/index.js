@@ -28,6 +28,10 @@ const Button = styled.button`
   border-radius: 30px;
   margin-top: 5px;`}
 
+  &:hover {
+    background-color: #0d61fd;
+  }
+
   &:active {
     opacity: 0.7;
   }
@@ -211,6 +215,13 @@ const Title = styled.h1`
   position: sticky;
   top: 0;
   cursor: pointer;
+
+  &.modal-title {
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 `
 
 const SubTitle = styled.h4`

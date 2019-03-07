@@ -40,6 +40,7 @@ const Button = styled.div`
   justify-content: center;
   cursor: pointer;
 
+  &:hover,
   &:active {
     opacity: 0.8
     background-color: #ccc;
@@ -87,7 +88,7 @@ const AllHabits = ({ show }) => {
   return (
     <div className="AllHabits">
       <Modal show={show} type="full">
-        <Title>
+        <Title className="modal-title">
           All Habits{' '}
           <Button onClick={hideAllHabitsModal}>
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">

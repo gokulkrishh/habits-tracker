@@ -61,6 +61,7 @@ const Habits = ({ allHabits, selectedDate, onUpdate }) => {
 
   const onClickNHold = habit => {
     dispatch({ type: constants.SELECTED_HABIT, payload: habit })
+    dispatch({ type: constants.TOGGLE_ADD_MODAL, payload: true })
   }
 
   const renderHabits = () => {
@@ -80,14 +81,13 @@ const Habits = ({ allHabits, selectedDate, onUpdate }) => {
         {habits.map((habit, index) => {
           return (
             <ClickNHold
-              className={!dayjs(selectedDate).isSame(today) ? 'readonly' : ''}
               key={habit.id}
               time={1}
               onClickNHold={() => {
                 onClickNHold(habit)
               }}
             >
-              <Card>
+              <Card className={!dayjs(selectedDate).isSame(today) ? 'readonly' : ''}>
                 <div className="card__left">
                   <label
                     className="card__checkbox"

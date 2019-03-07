@@ -11,7 +11,7 @@ const reducer = (state = initialState, action) => {
       return { ...state, selectedHabit: action.payload }
     case constants.TOGGLE_ALL_HABITS_MODAL:
       return { ...state, isAllHabitsModalVisible: action.payload }
-    case constants.TOGGLE_MODAL:
+    case constants.TOGGLE_ADD_MODAL:
       return { ...state, isModalVisible: action.payload }
     default:
       return state

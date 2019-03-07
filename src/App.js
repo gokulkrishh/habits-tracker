@@ -98,13 +98,14 @@ const App = () => {
   const mapState = useCallback(
     state => ({
       habits: state.habits,
+      isAllHabitsModalVisible: state.isAllHabitsModalVisible,
       selectedDate: state.selectedDate,
-      isAllHabitsModalVisible: state.isAllHabitsModalVisible
+      selectedHabit: state.selectedHabit
     }),
     []
   )
 
-  const { habits, selectedDate, isAllHabitsModalVisible } = useMappedState(mapState)
+  const { habits, isAllHabitsModalVisible, selectedHabit, selectedDate } = useMappedState(mapState)
 
   useEffect(() => {
     getAndSaveHabitsToStore()
@@ -138,7 +139,7 @@ const App = () => {
         </Button>
       </Header>
       <Calender />
-      <AddHabits onUpdate={getAndSaveHabitsToStore} />
+      <AddHabits onUpdate={getAndSaveHabitsToStore} selectedHabit={selectedHabit} />
       <Habits allHabits={habits} selectedDate={selectedDate} onUpdate={getAndSaveHabitsToStore} />
       <AllHabits show={isAllHabitsModalVisible} />
     </div>

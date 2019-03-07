@@ -1,6 +1,6 @@
 import { useMappedState, useDispatch } from 'redux-react-hook'
 import dayjs from 'dayjs'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 
 import db from '../database'
@@ -100,23 +100,27 @@ const AddHabits = ({ onUpdate, selectedHabit }) => {
   const initialState = { id: null, name: '', notes: '', reminders, time: '' }
   const [state, setState] = useState(initialState)
 
+  useEffect(() => {
+    if (selectedHabit && selectedHabit.id) {
+      setState(selectedHabit)
+    }
+  }, [selectedHabit])
+
   const hideModal = () => {
-    dispatch({ type: constants.TOGGLE_MODAL, payload: false })
+    setState(initialState)
+    dispatch({ type: constants.TOGGLE_ADD_MODAL, payload: false })
+    dispatch({ type: constants.SELECTED_HABIT, payload: {} })
   }
 
   const onFormSubmitCallback = async event => {
     event.preventDefault()
-    const { name, notes, time, reminders } = state
+    const { id, name, notes, time, reminders } = state
     const today = dayjs().format(constants.FORMAT.DATE)
-
-    if (!reminders.length) {
-      return false
-    }
 
     const request = {
       created: today,
       done: {},
-      isDeleted: false,
+      isDeleted: !reminders.length,
       name,
       notes,
       reminders,
@@ -124,8 +128,15 @@ const AddHabits = ({ onUpdate, selectedHabit }) => {
       time
     }
 
-    db.habits.add(request)
-    setState({ ...initialState })
+    if (!id) db.habits.add(request)
+    else {
+      db.habits.update(id, {
+        name,
+        notes,
+        reminders,
+        time
+      })
+    }
     hideModal()
     onUpdate()
   }
@@ -143,7 +154,7 @@ const AddHabits = ({ onUpdate, selectedHabit }) => {
         className="add"
         appearance="primary"
         onClick={() => {
-          dispatch({ type: constants.TOGGLE_MODAL, payload: true })
+          dispatch({ type: constants.TOGGLE_ADD_MODAL, payload: true })
         }}
       >
         <svg xmlns="http://www.w3.org/2000/svg" fill="#fff" width="24" height="24" viewBox="0 0 24 24">
@@ -222,7 +233,7 @@ const AddHabits = ({ onUpdate, selectedHabit }) => {
             <Button onClick={hideModal} type="button">
               Cancel
             </Button>
-            <Button appearance="primary">Add</Button>
+            <Button appearance="primary">{state.id ? 'Update' : 'Add'}</Button>
           </FormGroup>
         </form>
       </Modal>
