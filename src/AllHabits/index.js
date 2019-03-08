@@ -109,7 +109,7 @@ const AllHabits = ({ show }) => {
             const habits = groupedByHabits[key]
             return (
               <div className="card__container" key={key}>
-                <Date>{dayjs(key).format(constants.FORMAT.MONTH)}</Date>
+                <Date>{key}</Date>
                 {habits.map(habit => {
                   const reminders = habit.reminders.map(reminder => `${reminder[0]}${reminder[1]}`)
                   return (
