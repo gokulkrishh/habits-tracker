@@ -61,18 +61,19 @@ const AllHabits = ({ show }) => {
   const dispatch = useDispatch()
   const [groupedByHabits, setState] = useState([])
 
-  const getHabitsByCreatedDate = async () => {
+  const getHabitsGroupedByMonth = async () => {
     let collection = await db.habits.orderBy('created').toArray()
-    collection = collection.reduce((acc, habit) => {
-      const orderByMonth = dayjs(acc[habit.created]).format(constants.FORMAT.MONTH)
-      if (!acc[orderByMonth]) {
-        acc[habit.created] = [habit]
+    const groupedByMonth = collection.reduce((acc, habit) => {
+      const month = dayjs(acc[habit.created]).format(constants.FORMAT.MONTH)
+      if (!acc[month]) {
+        acc[month] = [habit]
       } else {
-        acc[orderByMonth].push(habit)
+        acc[month].push(habit)
       }
       return acc
     }, {})
-    setState(collection)
+
+    setState(groupedByMonth)
   }
 
   const toggleScrollInBody = (toggle = '') => {
@@ -84,8 +85,8 @@ const AllHabits = ({ show }) => {
 
   useEffect(() => {
     toggleScrollInBody()
-    getHabitsByCreatedDate()
-  }, [])
+    getHabitsGroupedByMonth()
+  }, [show])
 
   const hideAllHabitsModal = () => {
     dispatch({ type: constants.TOGGLE_ALL_HABITS_MODAL, payload: false })

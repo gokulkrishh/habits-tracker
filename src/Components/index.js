@@ -212,6 +212,7 @@ const Title = styled.h1`
   padding: 10px 20px;
   height: 70px;
   z-index: 1;
+  user-select: none;
 `
 
 const SubTitle = styled.h4`
