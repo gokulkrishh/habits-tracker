@@ -1,5 +1,4 @@
 import { useDispatch } from 'redux-react-hook'
-import ClickNHold from 'react-click-n-hold'
 import dayjs from 'dayjs'
 import db from '../database'
 import React from 'react'
@@ -42,6 +41,7 @@ const Habits = ({ allHabits, selectedDate, onUpdate }) => {
 
   const habits = getTodaysHabits()
   const today = dayjs().format(constants.FORMAT.DATE)
+  var buttonPressTimer = null;
 
   const updateHabit = async (habit, index) => {
     let { done, id, streak } = habit
@@ -64,6 +64,35 @@ const Habits = ({ allHabits, selectedDate, onUpdate }) => {
     dispatch({ type: constants.TOGGLE_ADD_MODAL, payload: true })
   }
 
+  const handleButtonPress = (habit) => {
+    document.oncontextmenu = function(e){
+      // var evt = {keyCode:93}
+      stopEvent(e);
+      handleButtonRelease();
+     }
+    buttonPressTimer = setTimeout(() => onClickNHold(habit), 700);
+  }
+  
+  const stopEvent = (event) => {
+    if(event.preventDefault !== undefined)
+     event.preventDefault();
+    if(event.stopPropagation !== undefined)
+     event.stopPropagation();
+  }
+  const disableRightclickOnHabitList = (e) => {
+    console.log(e.target)
+    // e.target.oncontextmenu = function(e){
+      // var evt = {keyCode:93}
+      stopEvent(e);
+      // handleButtonRelease();
+      return false;
+    //  }
+  }
+  const handleButtonRelease = () =>  {
+    clearTimeout(buttonPressTimer);
+  }
+
+
   const renderHabits = () => {
     if (!habits.length) {
       return (
@@ -77,16 +106,16 @@ const Habits = ({ allHabits, selectedDate, onUpdate }) => {
     }
 
     return (
-      <div>
+      <div onContextMenu={(e) => {disableRightclickOnHabitList(e)}}> 
         {habits.map((habit, index) => {
           return (
-            <ClickNHold
-              key={habit.id}
-              time={1}
-              onClickNHold={() => {
-                onClickNHold(habit)
-              }}
-            >
+            <div 
+              onTouchStart={() => handleButtonPress(habit)} 
+              onTouchEnd={handleButtonRelease} 
+              onMouseDown={() => handleButtonPress(habit)} 
+              onMouseUp={handleButtonRelease} 
+              onMouseLeave={handleButtonRelease}
+              key={habit.id}>
               <Card className={!dayjs(selectedDate).isSame(today) ? 'readonly' : ''}>
                 <div className="card__left">
                   <label
@@ -115,7 +144,7 @@ const Habits = ({ allHabits, selectedDate, onUpdate }) => {
                   <div className="streak">Done: {habit.streak}</div>
                 </div>
               </Card>
-            </ClickNHold>
+              </div>
           )
         })}
       </div>
