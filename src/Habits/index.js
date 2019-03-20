@@ -76,7 +76,7 @@ const Habits = ({ allHabits, selectedDate, onUpdate }) => {
     }
 
     return (
-      <div onContextMenu={(e) => {e.preventDefault()}}>
+      <div>
         {habits.map((habit, index) => {
           return (
             <ClickNHold
