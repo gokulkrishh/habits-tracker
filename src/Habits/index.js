@@ -21,7 +21,6 @@ const Empty = styled.h2`
   display: flex;
   align-items: center;
   justify-content: center;
-
   span {
     margin-left: 8px;
     font-size: 15px;
@@ -77,7 +76,7 @@ const Habits = ({ allHabits, selectedDate, onUpdate }) => {
     }
 
     return (
-      <div>
+      <div onContextMenu={(e) => {e.preventDefault()}}>
         {habits.map((habit, index) => {
           return (
             <ClickNHold
