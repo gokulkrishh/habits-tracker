@@ -54,15 +54,19 @@ const ListItem = styled.li`
   }
 `
 
-const Calender = () => {
+const Calender = ({ showToday }) => {
   let calenderEle = useRef(null)
   const dispatch = useDispatch()
   const [state, setState] = useState({ active: dayjs().date() })
 
   useEffect(() => {
     if (calenderEle) scrollIntoSelectedDate()
+    if (showToday) {
+      setState({ active: dayjs().date() })
+      dispatch({ type: constants.GO_TO_TODAY, payload: false })
+    }
     return () => (calenderEle = null)
-  }, [state.active])
+  }, [state.active, showToday])
 
   const scrollIntoSelectedDate = () => {
     const element = Array.from(calenderEle.children).filter(ele => ele.classList.contains('active'))

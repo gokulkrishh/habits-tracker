@@ -28,9 +28,11 @@ const Button = styled.button`
   border-radius: 30px;
   margin-top: 5px;`}
 
-  &:hover {
+  ${({ appearance }) =>
+    appearance === 'primary' &&
+    `&:hover {
     background-color: #0d61fd;
-  }
+  `}
 
   &:active {
     opacity: 0.7;

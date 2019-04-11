@@ -1,5 +1,6 @@
 import { useDispatch } from 'redux-react-hook'
 import ClickNHold from 'react-click-n-hold'
+import clsx from 'clsx'
 import dayjs from 'dayjs'
 import db from '../database'
 import React from 'react'
@@ -76,17 +77,22 @@ const Habits = ({ allHabits, selectedDate, onUpdate }) => {
     }
 
     return (
-      <div onContextMenu={(e) => {e.preventDefault()}}>
+      <div
+        onContextMenu={e => {
+          e.preventDefault()
+        }}
+      >
         {habits.map((habit, index) => {
+          const isReadItOnly = !dayjs(selectedDate).isSame(today)
           return (
             <ClickNHold
               key={habit.id}
               time={1}
               onClickNHold={() => {
-                onClickNHold(habit)
+                if (!isReadItOnly) onClickNHold(habit)
               }}
             >
-              <Card className={!dayjs(selectedDate).isSame(today) ? 'readonly' : ''}>
+              <Card className={clsx({ readonly: isReadItOnly })}>
                 <div className="card__left">
                   <label
                     className="card__checkbox"

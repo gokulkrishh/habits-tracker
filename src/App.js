@@ -97,6 +97,7 @@ const App = () => {
   const mapState = useCallback(
     state => ({
       habits: state.habits,
+      showToday: state.showToday,
       isAllHabitsModalVisible: state.isAllHabitsModalVisible,
       selectedDate: state.selectedDate,
       selectedHabit: state.selectedHabit
@@ -104,7 +105,7 @@ const App = () => {
     []
   )
 
-  const { habits, isAllHabitsModalVisible, selectedHabit, selectedDate } = useMappedState(mapState)
+  const { habits, isAllHabitsModalVisible, showToday, selectedHabit, selectedDate } = useMappedState(mapState)
 
   useEffect(() => {
     getAndSaveHabitsToStore()
@@ -119,10 +120,18 @@ const App = () => {
     dispatch({ type: constants.TOGGLE_ALL_HABITS_MODAL, payload: true })
   }
 
+  const goToToday = () => {
+    dispatch({ type: constants.GO_TO_TODAY, payload: true })
+  }
+
   return (
     <div className="App">
       <GlobalStyles />
-      <Title>
+      <Title
+        onClick={() => {
+          goToToday()
+        }}
+      >
         My Habits{' '}
         <Button
           appearance="primary"
@@ -134,7 +143,7 @@ const App = () => {
           All Habits
         </Button>
       </Title>
-      <Calender />
+      <Calender showToday={showToday} />
       <AddHabits onUpdate={getAndSaveHabitsToStore} selectedHabit={selectedHabit} />
       <Habits allHabits={habits} selectedDate={selectedDate} onUpdate={getAndSaveHabitsToStore} />
       <AllHabits show={isAllHabitsModalVisible} />

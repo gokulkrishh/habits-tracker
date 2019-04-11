@@ -13,6 +13,8 @@ const reducer = (state = initialState, action) => {
       return { ...state, isAllHabitsModalVisible: action.payload }
     case constants.TOGGLE_ADD_MODAL:
       return { ...state, isModalVisible: action.payload }
+    case constants.GO_TO_TODAY:
+      return { ...state, showToday: action.payload }
     default:
       return state
   }
