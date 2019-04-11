@@ -4,8 +4,8 @@ A habit tracker app (Made it for myself :P)
 
 ### Features
 
-- Use IndexedDB
-- PWA
+- its a PWA ;)
+- Use's IndexedDB
 - Click Habits title to go today's date.
 - Press & Hold a habit to edit
 - Press & Hold and un-select all days (M to S) to delete a habit. (This is intention to keep track of added habits)
