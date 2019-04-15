@@ -64,6 +64,10 @@ const Calender = ({ showToday }) => {
     if (showToday) {
       setState({ active: dayjs().date() })
       dispatch({ type: constants.GO_TO_TODAY, payload: false })
+      dispatch({
+        type: constants.SELECTED_DATE,
+        payload: dayjs().format(constants.FORMAT.DATE)
+      })
     }
     return () => (calenderEle = null)
   }, [state.active, showToday])
