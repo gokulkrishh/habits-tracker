@@ -109,7 +109,7 @@ const App = () => {
 
   useEffect(() => {
     getAndSaveHabitsToStore()
-  }, [])
+  })
 
   const getAndSaveHabitsToStore = async () => {
     const habits = await db.habits.toArray()
