@@ -7,7 +7,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { Card } from '../Components/index'
-import { convertTo12Hrs } from '../utils'
+import { convert24To12Hrs } from '../utils'
 import constants from '../constants'
 
 const CardContainer = styled.div`
@@ -22,9 +22,12 @@ const Empty = styled.h2`
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 30px;
+
   span {
     margin-left: 8px;
-    font-size: 15px;
+    font-size: 27px;
+    margin-top: 6px;
   }
 `
 
@@ -112,7 +115,7 @@ const Habits = ({ allHabits, selectedDate, onUpdate }) => {
 
                   <div className="card__info">
                     <h3 className="name">{habit.name}</h3>
-                    <span className="time">{convertTo12Hrs(habit.time)}</span>
+                    <span className="time">{convert24To12Hrs(habit.time)}</span>
                     {habit.notes ? <span className="notes">{habit.notes}</span> : null}
                   </div>
                 </div>

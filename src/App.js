@@ -1,6 +1,7 @@
-import { createGlobalStyle } from 'styled-components'
+import styled, { createGlobalStyle } from 'styled-components'
 import { useDispatch, useMappedState } from 'redux-react-hook'
 import React, { useCallback, useEffect } from 'react'
+import dayjs from 'dayjs'
 
 import { Button, Title } from './Components'
 import AddHabits from './AddHabits'
@@ -9,6 +10,7 @@ import Calender from './Calender'
 import constants from './constants'
 import db from './database'
 import Habits from './Habits'
+import IntroScreen from './IntroScreen'
 
 const GlobalStyles = createGlobalStyle`
   * {
@@ -92,29 +94,40 @@ const GlobalStyles = createGlobalStyle`
   }
 `
 
+const TitleContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  button {
+    margin-right: 20px;
+  }
+`
+
 const App = () => {
   const dispatch = useDispatch()
   const mapState = useCallback(
     state => ({
       habits: state.habits,
-      showToday: state.showToday,
+      shouldGotoToday: state.shouldGotoToday,
       isAllHabitsModalVisible: state.isAllHabitsModalVisible,
       selectedDate: state.selectedDate,
+      showIntroScreen: state.showIntroScreen,
       selectedHabit: state.selectedHabit
     }),
     []
   )
 
-  const { habits, isAllHabitsModalVisible, showToday, selectedHabit, selectedDate } = useMappedState(mapState)
+  const { habits, isAllHabitsModalVisible, showIntroScreen, shouldGotoToday, selectedHabit, selectedDate } = useMappedState(mapState)
 
   useEffect(() => {
     getAndSaveHabitsToStore()
-  })
+  }, [])
 
-  const getAndSaveHabitsToStore = async () => {
+  const getAndSaveHabitsToStore = useCallback(async () => {
     const habits = await db.habits.toArray()
     dispatch({ type: constants.HABITS, payload: habits })
-  }
+  })
 
   const onClickAllHabits = () => {
     dispatch({ type: constants.TOGGLE_ALL_HABITS_MODAL, payload: true })
@@ -127,26 +140,34 @@ const App = () => {
   return (
     <div className="App">
       <GlobalStyles />
-      <Title
-        onClick={() => {
-          goToToday()
-        }}
-      >
-        My Habits{' '}
-        <Button
-          appearance="primary"
-          size="small"
-          onClick={() => {
-            onClickAllHabits()
-          }}
-        >
-          All Habits
-        </Button>
-      </Title>
-      <Calender showToday={showToday} />
-      <AddHabits onUpdate={getAndSaveHabitsToStore} selectedHabit={selectedHabit} />
-      <Habits allHabits={habits} selectedDate={selectedDate} onUpdate={getAndSaveHabitsToStore} />
-      <AllHabits show={isAllHabitsModalVisible} />
+      {showIntroScreen ? (
+        <IntroScreen />
+      ) : (
+        <>
+          <TitleContainer>
+            <Title
+              onClick={() => {
+                goToToday()
+              }}
+            >
+              My Habits
+            </Title>
+            <Button
+              appearance="primary"
+              size="small"
+              onClick={() => {
+                onClickAllHabits()
+              }}
+            >
+              All Habits
+            </Button>
+          </TitleContainer>
+          <Calender shouldGotoToday={shouldGotoToday} />
+          <AddHabits onUpdate={getAndSaveHabitsToStore} selectedHabit={selectedHabit} />
+          <Habits allHabits={habits} selectedDate={selectedDate} onUpdate={getAndSaveHabitsToStore} />
+          <AllHabits show={isAllHabitsModalVisible} />
+        </>
+      )}
     </div>
   )
 }

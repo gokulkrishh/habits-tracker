@@ -1,4 +1,4 @@
-const convertTo12Hrs = time24 => {
+const convert24To12Hrs = time24 => {
   var ts = time24
   var H = +ts.substr(0, 2)
   var h = H % 12 || 12
@@ -7,4 +7,4 @@ const convertTo12Hrs = time24 => {
   return h + ts.substr(2, 3) + ampm
 }
 
-export { convertTo12Hrs }
+export { convert24To12Hrs }

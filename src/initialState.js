@@ -8,5 +8,6 @@ export default {
   isModalVisible: false,
   selectedDate: dayjs().format(constants.FORMAT.DATE),
   selectedHabit: {},
-  showToday: false
+  showIntroScreen: !window.localStorage.getItem('showIntroScreen'),
+  shouldGotoToday: false
 }

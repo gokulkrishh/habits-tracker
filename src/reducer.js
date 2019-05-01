@@ -14,7 +14,9 @@ const reducer = (state = initialState, action) => {
     case constants.TOGGLE_ADD_MODAL:
       return { ...state, isModalVisible: action.payload }
     case constants.GO_TO_TODAY:
-      return { ...state, showToday: action.payload }
+      return { ...state, shouldGotoToday: action.payload }
+    case constants.HIDE_INTRO_SCREEN:
+      return { ...state, showIntroScreen: action.payload }
     default:
       return state
   }

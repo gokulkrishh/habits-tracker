@@ -7,7 +7,7 @@ import styled from 'styled-components'
 import constants from '../constants'
 
 const ListContainer = styled.div`
-  height: 82px;
+  height: 72px;
   background-color: #e6e6e6;
   overflow-x: scroll;
   -webkit-overflow-scrolling: touch;
@@ -19,12 +19,12 @@ const ListContainer = styled.div`
 
 const List = styled.ul`
   white-space: nowrap;
-  margin: 13px 0;
+  margin: 10px 0;
 `
 
 const ListItem = styled.li`
-  height: 55px;
-  width: 55px;
+  height: 52px;
+  width: 52px;
   background-color: rgba(255, 255, 255, 0.7);
   text-align: center;
   border-radius: 4px;
@@ -54,14 +54,14 @@ const ListItem = styled.li`
   }
 `
 
-const Calender = ({ showToday }) => {
+const Calender = ({ shouldGotoToday }) => {
   let calenderEle = useRef(null)
   const dispatch = useDispatch()
   const [state, setState] = useState({ active: dayjs().date() })
 
   useEffect(() => {
     if (calenderEle) scrollIntoSelectedDate()
-    if (showToday) {
+    if (shouldGotoToday) {
       setState({ active: dayjs().date() })
       dispatch({ type: constants.GO_TO_TODAY, payload: false })
       dispatch({
@@ -69,7 +69,7 @@ const Calender = ({ showToday }) => {
         payload: dayjs().format(constants.FORMAT.DATE)
       })
     }
-  }, [state.active, showToday, dispatch])
+  }, [shouldGotoToday])
 
   const scrollIntoSelectedDate = () => {
     const element = Array.from(calenderEle.children).filter(ele => ele.classList.contains('active'))
@@ -78,20 +78,13 @@ const Calender = ({ showToday }) => {
     }
   }
 
-  const getNumberDaysInMonth = () => {
-    const dateObj = new Date()
-    const year = dateObj.getFullYear()
-    const month = dateObj.getMonth()
-    return new Date(year, month + 1, 0).getDate()
-  }
-
   const formattedDateStr = day => {
     const dateObj = new Date()
     return `${dateObj.getFullYear()}-0${dateObj.getMonth() + 1}-${day + 1}`
   }
 
   const renderListItems = () => {
-    const days = getNumberDaysInMonth()
+    const days = dayjs().daysInMonth()
     return Array.from(Array(days).keys()).map(day => {
       const formattedDate = formattedDateStr(day)
       const date = dayjs(formattedDate)

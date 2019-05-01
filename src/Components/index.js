@@ -95,7 +95,7 @@ const Card = styled.div`
   background-color: #fff;
   margin-bottom: 25px;
   border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  box-shadow: 0 1px 1px 0 rgba(60,64,67,.08), 0 1px 3px 1px rgba(60,64,67,.16);
   padding: 10px 12px;
   display: flex;
   justify-content: space-between;

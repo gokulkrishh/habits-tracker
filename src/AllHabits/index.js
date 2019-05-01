@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import styled from 'styled-components'
 
-import { convertTo12Hrs } from '../utils'
+import { convert24To12Hrs } from '../utils'
 import { Title, Card, Modal, ModalOverlay } from '../Components/index'
 import db from '../database'
 import constants from '../constants'
@@ -96,7 +96,7 @@ const AllHabits = ({ show }) => {
     <div className="AllHabits">
       <Modal show={show} type="full">
         <Title className="modal-title">
-          All Habits{' '}
+          All Habits
           <Button onClick={hideAllHabitsModal}>
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
               <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
@@ -117,7 +117,7 @@ const AllHabits = ({ show }) => {
                       <div className="card__left">
                         <div className="card__info">
                           <h3 className="name">{habit.name}</h3>
-                          <span className="time">{convertTo12Hrs(habit.time)}</span>
+                          <span className="time">{convert24To12Hrs(habit.time)}</span>
                           {habit.notes ? <span className="notes">{habit.notes}</span> : null}
                         </div>
                       </div>
