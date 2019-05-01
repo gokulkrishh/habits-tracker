@@ -39,7 +39,7 @@ const IntroScreenContainer = styled.div`
     line-height: 25px;
     width: 90%;
     margin: 0 auto;
-    margin-top: 30px;
+    margin-top: 15px;
   }
 
   ul {
