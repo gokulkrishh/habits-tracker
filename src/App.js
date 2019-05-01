@@ -1,7 +1,6 @@
 import styled, { createGlobalStyle } from 'styled-components'
 import { useDispatch, useMappedState } from 'redux-react-hook'
 import React, { useCallback, useEffect } from 'react'
-import dayjs from 'dayjs'
 
 import { Button, Title } from './Components'
 import AddHabits from './AddHabits'
@@ -120,14 +119,14 @@ const App = () => {
 
   const { habits, isAllHabitsModalVisible, showIntroScreen, shouldGotoToday, selectedHabit, selectedDate } = useMappedState(mapState)
 
-  useEffect(() => {
-    getAndSaveHabitsToStore()
-  }, [])
-
   const getAndSaveHabitsToStore = useCallback(async () => {
     const habits = await db.habits.toArray()
     dispatch({ type: constants.HABITS, payload: habits })
   })
+
+  useEffect(() => {
+    getAndSaveHabitsToStore()
+  }, [getAndSaveHabitsToStore])
 
   const onClickAllHabits = () => {
     dispatch({ type: constants.TOGGLE_ALL_HABITS_MODAL, payload: true })

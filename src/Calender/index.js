@@ -69,7 +69,7 @@ const Calender = ({ shouldGotoToday }) => {
         payload: dayjs().format(constants.FORMAT.DATE)
       })
     }
-  }, [shouldGotoToday])
+  }, [dispatch, shouldGotoToday])
 
   const scrollIntoSelectedDate = () => {
     const element = Array.from(calenderEle.children).filter(ele => ele.classList.contains('active'))
