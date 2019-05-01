@@ -19,7 +19,7 @@ const IntroScreenContainer = styled.div`
 
   h1 {
     margin-top: 5px;
-    font-size: 30px !important;
+    font-size: 35px !important;
   }
 
   h1,
@@ -31,7 +31,7 @@ const IntroScreenContainer = styled.div`
   h2 {
     margin-top: 5px;
     color: #0d61fd;
-    font-size: 22px !important;
+    font-size: 25px !important;
   }
 
   > p {
@@ -55,12 +55,16 @@ const IntroScreenContainer = styled.div`
     display: flex;
   }
 
+  li:first-child {
+    padding-top: 10px;
+  }
+
   button {
     display: block;
     margin: 30px auto;
     background-color: #0d61fd;
     color: #fff;
-    font-size: 17px;
+    font-size: 14px;
     border: 1px solid #0d61fd;
     max-width: 360px;
     text-transform: uppercase;
@@ -68,13 +72,13 @@ const IntroScreenContainer = styled.div`
   }
 
   li b {
-    font-size: 17px;
+    font-size: 16px;
   }
 
   li p {
     margin-top: 4px;
     line-height: 25px;
-    font-size: 15px;
+    font-size: 14px;
     width: 90%;
   }
 
