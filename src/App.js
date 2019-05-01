@@ -126,7 +126,7 @@ const App = () => {
 
   useEffect(() => {
     getAndSaveHabitsToStore()
-  }, [getAndSaveHabitsToStore])
+  }, [])
 
   const onClickAllHabits = () => {
     dispatch({ type: constants.TOGGLE_ALL_HABITS_MODAL, payload: true })

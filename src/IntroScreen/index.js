@@ -18,7 +18,7 @@ const IntroScreenContainer = styled.div`
   padding: 20px;
 
   h1 {
-    margin-top: 20px;
+    margin-top: 5px;
     font-size: 40px !important;
   }
 
@@ -47,11 +47,11 @@ const IntroScreenContainer = styled.div`
     text-align: left;
     max-width: 360px;
     margin: 0 auto;
-    margin-top: 30px;
+    margin-top: 20px;
   }
 
   li {
-    padding-top: 30px;
+    padding-top: 20px;
     display: flex;
   }
 
@@ -79,8 +79,8 @@ const IntroScreenContainer = styled.div`
   }
 
   img {
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
     margin-top: 10px;
   }
 
