@@ -36,10 +36,11 @@ const IntroScreenContainer = styled.div`
 
   > p {
     font-size: 16px;
-    line-height: 25px;
+    line-height: 22px;
     width: 90%;
     margin: 0 auto;
     margin-top: 15px;
+    text-align: left;
   }
 
   ul {
@@ -77,7 +78,7 @@ const IntroScreenContainer = styled.div`
 
   li p {
     margin-top: 4px;
-    line-height: 25px;
+    line-height: 20px;
     font-size: 14px;
     width: 90%;
   }
