@@ -119,7 +119,7 @@ const IntroScreen = props => {
           </div>
           <div>
             <b>Add any habits</b>
-            <p>Create or add any of your habits with time and day to track it.</p>
+            <p>Create or add your existing habits with time and day to track it.</p>
           </div>
         </li>
         <li>
@@ -128,7 +128,7 @@ const IntroScreen = props => {
           </div>
           <div>
             <b>Edit habits</b>
-            <p>Want to change an habit, edit it by press and an holding the habit card.</p>
+            <p>Want to change an habit, edit it by pressing and holding the habit card.</p>
           </div>
         </li>
         <li>
