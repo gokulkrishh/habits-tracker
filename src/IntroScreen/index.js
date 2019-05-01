@@ -19,7 +19,7 @@ const IntroScreenContainer = styled.div`
 
   h1 {
     margin-top: 5px;
-    font-size: 40px !important;
+    font-size: 30px !important;
   }
 
   h1,
@@ -31,7 +31,7 @@ const IntroScreenContainer = styled.div`
   h2 {
     margin-top: 5px;
     color: #0d61fd;
-    font-size: 29px !important;
+    font-size: 22px !important;
   }
 
   > p {
