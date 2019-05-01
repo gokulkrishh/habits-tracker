@@ -57,7 +57,7 @@ const IntroScreenContainer = styled.div`
 
   button {
     display: block;
-    margin: 50px auto;
+    margin: 30px auto;
     background-color: #0d61fd;
     color: #fff;
     font-size: 17px;
@@ -72,7 +72,7 @@ const IntroScreenContainer = styled.div`
   }
 
   li p {
-    margin-top: 6px;
+    margin-top: 4px;
     line-height: 25px;
     font-size: 15px;
     width: 90%;
@@ -81,7 +81,6 @@ const IntroScreenContainer = styled.div`
   img {
     width: 50px;
     height: 50px;
-    margin-top: 10px;
   }
 
   li div:last-child {
@@ -90,6 +89,8 @@ const IntroScreenContainer = styled.div`
 
   li div:first-child {
     margin-left: 10px;
+    display: flex;
+    align-items: center;
   }
 `
 
