@@ -16,6 +16,10 @@ const IntroScreenContainer = styled.div`
   background-color: #fff;
   z-index: 2;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: auto;
 
   h1 {
     margin-top: 5px;
@@ -40,7 +44,7 @@ const IntroScreenContainer = styled.div`
     width: 90%;
     margin: 0 auto;
     margin-top: 15px;
-    text-align: left;
+    text-align: center;
   }
 
   ul {
@@ -111,7 +115,7 @@ const IntroScreen = props => {
     <IntroScreenContainer>
       <h1>Welcome to</h1>
       <h2>Habits Tracker</h2>
-      <p>An awesome tool to help you to form or keep track of your existing habits.</p>
+      <p>A simple app to help you to form or keep track of your existing habits.</p>
       <ul>
         <li>
           <div>
