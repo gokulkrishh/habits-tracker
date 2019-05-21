@@ -36,11 +36,15 @@ const Habits = ({ allHabits, selectedDate, onUpdate }) => {
   const dispatch = useDispatch()
 
   const getTodaysHabits = () => {
-    const habits = allHabits.filter(habit => {
-      return habit.reminders.indexOf(constants.DAYS[selectedDay]) > -1 && !dayjs(habit.created).isAfter(selectedDate)
-    })
-
-    return habits
+    return allHabits
+      .filter(habit => {
+        return habit.reminders.indexOf(constants.DAYS[selectedDay]) > -1 && !dayjs(habit.created).isAfter(selectedDate)
+      })
+      .sort((a, b) => {
+        if (a.time > b.time) return 1
+        else if (a.time < b.time) return -1
+        return 0
+      })
   }
 
   const habits = getTodaysHabits()
