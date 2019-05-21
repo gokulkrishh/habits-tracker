@@ -97,6 +97,9 @@ const TitleContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: sticky;
+  top: 0;
+  background-color: #f7f7f7;
 
   button {
     margin-right: 20px;
@@ -122,7 +125,7 @@ const App = () => {
   const getAndSaveHabitsToStore = useCallback(async () => {
     const habits = await db.habits.toArray()
     dispatch({ type: constants.HABITS, payload: habits })
-  })
+  }, [])
 
   useEffect(() => {
     getAndSaveHabitsToStore()
