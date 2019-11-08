@@ -1,0 +1,2 @@
+- name: Web Performance Audits with Lighthouse
+  uses: justinribeiro/lighthouse-action@v1.0.0
