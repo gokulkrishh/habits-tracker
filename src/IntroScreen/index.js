@@ -8,18 +8,11 @@ import AllSVG from './all.svg'
 import constants from '../constants'
 
 const IntroScreenContainer = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #fff;
-  z-index: 2;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  overflow: auto;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 95%;
 
   h1 {
     margin-top: 5px;
@@ -50,7 +43,7 @@ const IntroScreenContainer = styled.div`
   ul {
     font-size: 17px;
     text-align: left;
-    max-width: 360px;
+    max-width: 320px;
     margin: 0 auto;
     margin-top: 20px;
   }
@@ -87,19 +80,10 @@ const IntroScreenContainer = styled.div`
     width: 90%;
   }
 
-  img {
-    width: 50px;
-    height: 50px;
-  }
-
-  li div:last-child {
-    margin-left: 35px;
-  }
-
-  li div:first-child {
-    margin-left: 10px;
+  li img {
     display: flex;
     align-items: center;
+    margin-right: 20px;
   }
 `
 
@@ -115,30 +99,24 @@ const IntroScreen = props => {
     <IntroScreenContainer>
       <h1>Welcome to</h1>
       <h2>Habits Tracker</h2>
-      <p>A simple app to help you to form or keep track of your existing habits.</p>
+      <p>A simple app to help you form a habit or keep track of your existing habits.</p>
       <ul>
         <li>
-          <div>
-            <img src={AddSVG} alt="Add" />
-          </div>
+          <img src={AddSVG} alt="Add" />
           <div>
             <b>Add any habits</b>
             <p>Create or add your existing habits with time and day to track it.</p>
           </div>
         </li>
         <li>
-          <div>
-            <img src={EditSVG} alt="Edit" />
-          </div>
+          <img src={EditSVG} alt="Edit" />
           <div>
             <b>Edit habits</b>
             <p>Want to change an habit, edit it by pressing and holding the habit card.</p>
           </div>
         </li>
         <li>
-          <div>
-            <img src={AllSVG} alt="All" />
-          </div>
+          <img src={AllSVG} alt="All" />
           <div>
             <b>All habits</b>
             <p>See all the habits sorted by month in all habits.</p>

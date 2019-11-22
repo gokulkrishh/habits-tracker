@@ -125,7 +125,7 @@ const App = () => {
   const getAndSaveHabitsToStore = useCallback(async () => {
     const habits = await db.habits.toArray()
     dispatch({ type: constants.HABITS, payload: habits })
-  }, [])
+  }, [dispatch])
 
   useEffect(() => {
     getAndSaveHabitsToStore()

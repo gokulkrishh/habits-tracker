@@ -54,22 +54,16 @@ const ListItem = styled.li`
   }
 `
 
-const Calender = ({ shouldGotoToday }) => {
+const Calender = () => {
   let calenderEle = useRef(null)
   const dispatch = useDispatch()
   const [state, setState] = useState({ active: dayjs().date() })
 
   useEffect(() => {
-    if (calenderEle) scrollIntoSelectedDate()
-    if (shouldGotoToday) {
-      setState({ active: dayjs().date() })
-      dispatch({ type: constants.GO_TO_TODAY, payload: false })
-      dispatch({
-        type: constants.SELECTED_DATE,
-        payload: dayjs().format(constants.FORMAT.DATE)
-      })
+    if (calenderEle) {
+      scrollIntoSelectedDate()
     }
-  }, [dispatch, shouldGotoToday])
+  }, [calenderEle])
 
   const scrollIntoSelectedDate = () => {
     const element = Array.from(calenderEle.children).filter(ele => ele.classList.contains('active'))
@@ -80,7 +74,7 @@ const Calender = ({ shouldGotoToday }) => {
 
   const formattedDateStr = day => {
     const dateObj = new Date()
-    return `${dateObj.getFullYear()}-0${dateObj.getMonth() + 1}-${day + 1}`
+    return `${dateObj.getFullYear()}-${dateObj.getMonth() + 1}-${day + 1}`
   }
 
   const renderListItems = () => {
@@ -99,7 +93,7 @@ const Calender = ({ shouldGotoToday }) => {
           }}
         >
           <span>{constants.DAYS[date.day()]}</span>
-          <span>{day + 1}</span>
+          <span>{date.date()}</span>
         </ListItem>
       )
     })
